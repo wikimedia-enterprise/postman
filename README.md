@@ -29,12 +29,12 @@ The primary home for our interactive documentation and live collections is:
 | **Realtime API** | Stream Wikimedia project changes as they happen. 
 | **Structured Data** | Deep integration with Wikidata and Commons. |
 
-## 🛠️ Usage Notes
+## Usage Notes 🛠️
 * **Environment Variables**: We recommend using Postman Environments to manage your access tokens securely.
 * **Account limits**: Ensure you are aware of the usage limits associated with your free or paid account.
 * **Updates**: This collection is updated regularly. Be sure to pull changes or re-fork if you notice new endpoints in the documentation.
 
-## 🤝 Contributing
+## Contributing 🤝
 Found a bug or have a suggestion? 
 1.  Open an [Issue](https://github.com/wikimedia-enterprise/postman/issues).
 2.  Submit a Pull Request.
