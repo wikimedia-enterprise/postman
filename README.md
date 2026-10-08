@@ -3,7 +3,6 @@
 Welcome to the official Postman collection for **Wikimedia Enterprise**. This repository provides a comprehensive set of API requests to help you explore, test, and integrate Wikipedia's high-volume data services.
 
 [![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](http://postman.com/wikimedia-enterprise)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
 ##  Official Workspace 🚀
 Interact with the collection live at **[http://postman.com/wikimedia-enterprise](http://postman.com/wikimedia-enterprise)**
