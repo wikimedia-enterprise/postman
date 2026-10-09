@@ -238,15 +238,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//  \"filters\": [\r\n//    { \"field\": \"identifier\", \"value\": \"wiki\" }\r\n//  ]\r\n//    \"limit\": 10\r\n//    \"fields\": [\"name\",\"identifier\",\"description\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/codes",
               "host": [
@@ -266,15 +257,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"description\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/codes/{{project_code}}",
               "host": [
@@ -324,15 +306,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//  \"filters\": [\r\n//    { \"field\": \"identifier\", \"value\": \"en\" }\r\n//  ]\r\n//    \"limit\": 10\r\n//    \"fields\": [\"name\",\"identifier\",\"alternate_name\",\"direction\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/languages",
               "host": [
@@ -362,15 +335,6 @@
             },
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"alternate_name\",\"direction\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/languages/{{language_code}}",
               "host": [
@@ -442,15 +406,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\n//  \"filters\": [\n//    { \"field\": \"identifier\", \"value\": \"enwiki\" }\n//  ]\n//    \"limit\": 10\n//    \"fields\": [\"name\",\"identifier\",\"code\",\"url\",\"in_language\"]\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/projects",
               "host": [
@@ -470,15 +425,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"code\",\"url\",\"in_language\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/projects/{{project_language_code}}",
               "host": [
@@ -537,15 +483,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//  \"filters\": [\r\n//    { \"field\": \"identifier\", \"value\": \"0\" }\r\n//  ]\r\n//    \"limit\": 10\r\n//    \"fields\": [\"name\",\"identifier\",\"description\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/namespaces",
               "host": [
@@ -565,15 +502,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"description\"]\r\n//}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/namespaces/{{namespace_code}}",
               "host": [
@@ -641,15 +569,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "// {\n//   \"filters\": [ \n//     { \"field\":\"is_part_of.identifier\", \"value\": \"enwiki\" }\n//   ],\n//    \"limit\": 10,\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\n// }",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/snapshots/structured-contents",
                   "host": [
@@ -670,15 +589,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}",
                   "host": [
@@ -881,15 +791,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "// {\n//   \"filters\": [ \n//     { \"field\":\"is_part_of.identifier\", \"value\": \"enwiki\" }\n//   ],\n//    \"limit\": 10,\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\n// }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/snapshots",
               "host": [
@@ -909,15 +810,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/snapshots/{{snapshot_identifier}}",
               "host": [
@@ -1052,15 +944,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "// {\r\n//   \"filters\": [ \r\n//     { \"field\":\"is_part_of.identifier\", \"value\": \"enwiki\" }\r\n//   ],\r\n//    \"limit\": 10,\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/snapshots/{{snapshot_identifier}}/chunks",
               "host": [
@@ -1082,15 +965,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\"]\r\n// }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{api_server}}/v2/snapshots/{{snapshot_identifier}}/chunks/{{chunk_identifier}}",
               "host": [
@@ -1261,15 +1135,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n//   \"fields\": [\"name\",\"identifier\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"protection\",\"entity\",\"visibility\",\"previous_version\",\"url\",\"is_part_of\",\"license\",\"event\"]\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/wikidata/items/{{wikidata_item_id}}",
                   "host": [
@@ -1291,15 +1156,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n//   \"fields\": [\"name\",\"identifier\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"protection\",\"entity\",\"visibility\",\"previous_version\",\"url\",\"is_part_of\",\"license\",\"event\",\"sitelinks\"]\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/wikidata/properties/{{wikidata_property_id}}",
                   "host": [
@@ -1321,15 +1177,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n//   \"fields\": [\"en\",\"ce\",\"de\",\"ja\",\"gbe\",\"zh-cn\"]\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/wikidata/labels/{{wikidata_entity_id}}",
                   "host": [
@@ -1383,7 +1230,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"filters\": [\n    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n  ]\n  // \"limit\": 10\n  // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -1439,7 +1286,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"filters\": [\n    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n  ]\n  // \"limit\": 10\n  // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
+              "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1475,15 +1322,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  //\"filters\": [\r\n    // {\r\n    //   \"field\": \"event.type\", \"value\": \"delete\"\r\n    // }\r\n  //]\r\n  // \"since\":\"2025-08-26T00:00:00Z\"\r\n  // \"fields\": [\"version.scores.revertrisk.*\", \"event.*\"]\r\n  // \"parts\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\r\n  // \"since_per_partition\": {\r\n  // \"0\": \"2023-06-05T12:00:00Z\", \r\n  //  \"1\": \"2023-06-05T12:00:00Z\",\r\n  //  \"2\": \"2023-06-05T12:00:00Z\",\r\n  //}\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{realtime_server}}/v2/wikidata",
                   "host": [
@@ -1509,15 +1347,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n//  \"filters\": [\n//    { \"field\": \"in_language.identifier\", \"value\": \"en\" },\n//    { \"field\": \"namespace.identifier\",   \"value\": 0 }\n//  ]\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/batches/{{date}}/{{hour}}",
                   "host": [
@@ -1539,15 +1368,6 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\"]\r\n// }",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/batches/{{date}}/{{hour}}/{{snapshot_identifier}}",
                   "host": [
@@ -1676,15 +1496,6 @@
           "request": {
             "method": "POST",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  //\"filters\": [\n    // {\n    //   \"field\": \"event.type\", \"value\": \"delete\"\n    // }\n  //]\n  // \"since\":\"2025-08-26T00:00:00Z\"\n  // \"fields\": [\"version.scores.revertrisk.*\", \"event.*\"]\n  // \"parts\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n  // \"since_per_partition\": {\n  // \"0\": \"2023-06-05T12:00:00Z\", \n  //  \"1\": \"2023-06-05T12:00:00Z\",\n  //  \"2\": \"2023-06-05T12:00:00Z\",\n  //}\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{realtime_server}}/v2/articles",
               "host": [
@@ -1693,13 +1504,6 @@
               "path": [
                 "v2",
                 "articles"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "event.type",
-                  "disabled": true
-                }
               ]
             },
             "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. The event type is found in the article.event.type field. Possible values are `update`, `delete`, and `visibility-change.`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
