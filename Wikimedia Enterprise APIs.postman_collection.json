@@ -1383,7 +1383,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n//  \"filters\": [\n//    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n//  ]\n//   // \"limit\": 10\n//   // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
+                  "raw": "{\n  \"filters\": [\n    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n  ]\n  // \"limit\": 10\n  // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -1439,7 +1439,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n//  \"filters\": [\n//    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n//  ]\n//   // \"limit\": 10\n//   // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
+              "raw": "{\n  \"filters\": [\n    { \"field\": \"is_part_of.identifier\", \"value\": \"enwiki\" }\n  ]\n  // \"limit\": 10\n  // \"fields\": [\"name\", \"article_body\", \"redirects\", \"templates\", \"categories\",\"identifier\",\"abstract\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\n}",
               "options": {
                 "raw": {
                   "language": "json"
