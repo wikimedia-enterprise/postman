@@ -1,44 +1,70 @@
-# Wikimedia Enterprise Postman Collection 🐿️
+# Wikimedia Enterprise Postman Collection
 
-Welcome to the official Postman collection for **Wikimedia Enterprise**. This repository provides a comprehensive set of API requests to help you explore, test, and integrate Wikipedia's high-volume data services.
+The Postman collection for the Wikimedia Enterprise APIs, maintained by the Wikimedia Enterprise team. Use it to explore the API, try requests, and check responses before you write code.
 
-[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](http://postman.com/wikimedia-enterprise)
+[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/wikimedia-enterprise)
 
-##  Official Workspace 🚀
-Interact with the collection live at **[http://postman.com/wikimedia-enterprise](http://postman.com/wikimedia-enterprise)**
+The public workspace is at [postman.com/wikimedia-enterprise](https://www.postman.com/wikimedia-enterprise). This repository holds the same collection as a file, `wikimedia-enterprise-apis.postman_collection.json` (Postman collection format v2.1), which you can import directly.
 
----
+## Quick start
 
-##  Quick Start 🐿️
+1. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (in Postman, click **Import** and choose the file).
+2. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
+3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:
+    - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
+    - `wmePassword`: your Wikimedia Enterprise password
 
-1.  **Visit the Workspace**: Click the link above to view the public Wikimedia Enterprise workspace.
-2.  **Fork the Collection**: Fork the collection to your own Postman workspace to start making requests.
-3.  **Configure Auth**: 
-    * [Sign up for an account](https://dashboard.enterprise.wikimedia.com/signup/).
-    * Add your Enterprise username and password to your local vault in the variables `{{vault:wmeUsername}}` and `{{vault:wmePassword}}`.
-    * Use the [Login endpoint](https://www.postman.com/wikimedia-enterprise/workspace/57f4bfe2-972e-471d-8b4b-4e8a8bb6db77/request/47290592-18e31479-944d-4adc-9466-c47a910394ae?action=share&source=copy-link&creator=47290592) (Authentication -> Login ), which will automatically populate the environment variables `{{access_token}}` and `{{refresh_token}}`.
-4. **Make your first call**: [get the NASA Wikipedia page in the On-demand API](https://www.postman.com/wikimedia-enterprise/workspace/57f4bfe2-972e-471d-8b4b-4e8a8bb6db77/example/47290592-fc19dec5-0d30-4e51-858c-504b7d95702a?action=share&source=copy-link&creator=47290592).
+    In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both secrets. That's the only place the collection sends your credentials, and Postman won't use them for any other site.
+4. **Let the collection read the vault.** In the vault, click the settings icon at the top right and turn on **Allow Vault secrets in scripts**.
+5. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks "Grant Vault access for this execution?": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.
 
+You don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.
 
-##  What's Inside? 📦
+**If a request fails:**
 
-| Feature | Description |
+- **"Wikimedia Enterprise credentials not found":** check that both secrets exist with exactly those names (step 3) and that **Allow Vault secrets in scripts** is on (step 4).
+- **You chose Deny Access by mistake:** in the vault, open **Settings**, then the **Manage access** tab, and click **Grant Access** next to the collection.
+- **401 Unauthorized:** check your username and password in the vault. The Postman Console (at the bottom of the window) shows each login and refresh.
+
+## How authentication works
+
+The Wikimedia Enterprise APIs use JWT bearer tokens: an access token that lasts 24 hours and a refresh token that lasts 90 days.
+
+A collection-level pre-request script handles this before every request outside the **Authentication** folder:
+
+- With no token yet, it calls `/v1/login` with your vault credentials.
+- An hour before the access token expires, it calls `/v1/token-refresh`.
+- If a refresh fails, or the refresh token is close to its 90-day limit, it logs in again.
+- If your credentials are missing, the request stops with an error that says so. Details of each step are in the Postman Console.
+
+You can also run **Authentication > Login** yourself; it stores the tokens in the same place.
+
+**Upgrading from an earlier version?** Earlier versions kept tokens in an environment. The script removes those old token variables from your active environment the first time it runs, so they can't override the new ones.
+
+**Running outside the Postman app** (Newman or the Postman CLI): the vault isn't available there, so pass `wmeUsername` and `wmePassword` as environment or global variables.
+
+## What's inside
+
+| Folder | What it covers |
 | :--- | :--- |
-| **Snapshot API** | Access bulk data dumps for large-scale analysis. |
-| **On-demand API** | Query specific articles or metadata with low latency. |
-| **Realtime API** | Stream Wikimedia project changes as they happen. 
-| **Structured Data** | Deep integration with Wikidata and Commons. |
+| **Authentication** | Login, token refresh, and the forgot-password flow. |
+| **Metadata** | Available projects, languages, namespaces, and project codes. |
+| **Snapshot** | Snapshot API: list, inspect, and download project snapshots and their chunks, including Structured Contents snapshots (Beta). |
+| **On-demand** | On-demand API: look up the current version of an article, its Structured Contents (Beta), and Wikidata items, properties, and labels (Beta). |
+| **Realtime** | Realtime API: streaming article and Wikidata updates, and Realtime: Batch hourly files. |
 
-## Usage Notes 🛠️
-* **Environment Variables**: We recommend using Postman Environments to manage your access tokens securely.
-* **Account limits**: Ensure you are aware of the usage limits associated with your free or paid account.
-* **Updates**: This collection is updated regularly. Be sure to pull changes or re-fork if you notice new endpoints in the documentation.
+Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
-## Contributing 🤝
-Found a bug or have a suggestion? 
-1.  Open an [Issue](https://github.com/wikimedia-enterprise/postman/issues).
-2.  Submit a Pull Request.
-3.  Reach out via the [Wikimedia Enterprise help center](https://enterprise.wikimedia.com/contact/).
+## Usage notes
 
----
-*Maintained with 🐿️ by the Commercial Partnerships Division of the Wikimedia Foundation.*
+- **Account limits** depend on your account. Check your usage in the [Dashboard](https://dashboard.enterprise.wikimedia.com/).
+- **Updates:** we update this collection as the API changes. Re-import the file or pull changes into your fork to get new requests.
+- **Status:** current API status is at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/).
+
+## Contributing
+
+Found a problem or have a suggestion? [Open an issue](https://github.com/wikimedia-enterprise/postman/issues). For questions about your account or the APIs, [contact us](https://enterprise.wikimedia.com/contact/).
+
+## License
+
+GPL-3.0. See [LICENSE](LICENSE). Content returned by the APIs comes from Wikipedia and other Wikimedia projects and is licensed under CC BY-SA 4.0.
