@@ -13,14 +13,14 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
 3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
     - `wmePassword`: your Wikimedia Enterprise password
-4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Enable support in scripts**, and click **Enable**.
+4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Allow Vault secrets in scripts**.
 5. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The collection logs in for you and the request returns the article. If Postman asks whether the collection can use your vault, choose **Only this collection** and click **Grant Access**.
 
 You don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.
 
 **If a request fails:**
 
-- **"Wikimedia Enterprise credentials not found":** check that both secrets exist with exactly those names (step 3) and that script support is on (step 4).
+- **"Wikimedia Enterprise credentials not found":** check that both secrets exist with exactly those names (step 3) and that **Allow Vault secrets in scripts** is on (step 4).
 - **You chose Deny Access by mistake:** in the vault, open **Settings**, then the **Manage access** tab, and click **Grant Access** next to the collection.
 - **401 Unauthorized:** check your username and password in the vault. The Postman Console (at the bottom of the window) shows each login and refresh.
 
