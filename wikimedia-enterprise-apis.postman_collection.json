@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "438d4b7c-ed56-4b43-8535-14441115f733",
     "name": "Wikimedia Enterprise APIs",
-    "description": "# Quick Links\n\n- [Wikimedia Enterprise APIs overview](https://enterprise.wikimedia.com/api/)\n    \n- [Reference Documentation](https://enterprise.wikimedia.com/docs/)\n    \n- [OpenAPI definition (YAML)](https://enterprise.wikimedia.com/docs/api/wme-api.yaml)\n    \n- [Data Schema Explanation: Data Dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/)\n    \n- [Best Practices](https://enterprise.wikimedia.com/docs/best-practices/)\n    \n\n**Disclaimer: this Postman Collection is not meant as complete reference documentation. It is meant to be used for endpoint discovery and testing purposes. It describes the most-used endpoints and methods, but it does not exhaustively list every endpoint and method. For complete refdocs, please visit** [enterprise.wikimedia.com/docs/](https://enterprise.wikimedia.com/docs/)\n\n# Using this collection\n\n1. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.\n2. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:\n    - `wmeUsername`: your Wikimedia Enterprise username, in lowercase\n    - `wmePassword`: your Wikimedia Enterprise password\n\n    In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both secrets. That's the only place the collection sends your credentials, and Postman won't use them for any other site.\n3. **Let the collection read the vault.** In the vault, click the settings icon at the top right and turn on **Allow Vault secrets in scripts**.\n4. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks \"Grant Vault access for this execution?\": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.\n\nYou don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.\n\n**If a request fails:**\n\n- **\"Wikimedia Enterprise credentials not found\":** check that both secrets exist with exactly those names (step 2) and that **Allow Vault secrets in scripts** is on (step 3).\n- **You chose Deny Access by mistake:** in the vault, open **Settings**, then the **Manage access** tab, and click **Grant Access** next to the collection.\n- **401 Unauthorized:** check your username and password in the vault. The Postman Console (at the bottom of the window) shows each login and refresh.\n\n# Introduction\n\nWikimedia Enterprise is a [suite of APIs](https://enterprise.wikimedia.com/api/) designed for **high-volume read-only access to Wikipedia and other** [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/). These APIs have been developed and are maintained by the Wikimedia Foundation. All endpoints return data in a consistent schema, so you can combine articles from Snapshot, On-demand, or Realtime without creating separate parsers. Our Snapshot and Realtime: Batch endpoints return tar.gz files and an NDJSON header. All other API endpoints return JSON by default.\n\nRead our [Data Primer](https://enterprise.wikimedia.com/about/data-primer/) to understand how data from Wikimedia projects is created and maintained. With Wikimedia Enterprise APIs, you can:\n\n- **Download an entire Wikimedia project** (HTML Database Dump)\n    \n    - Call the [Snapshot API](https://enterprise.wikimedia.com/docs/snapshot/) to receive a binary data file (compressed into a .tar.gz file) containing every single article in a specific project, e.g. all of English Wikipedia or German Wiktionary.\n        \n- **Request the latest public version of a single article**:\n    \n    - Query the [On-demand API](https://enterprise.wikimedia.com/docs/on-demand/) by article name, like \"Albert_Einstein\" or \"SpaceX\", to receive the most recent article version in all projects. You can also use filters for language and/or project of choice.\n        \n- **Stream real-time updates** (firehose) from [supported projects](https://enterprise.wikimedia.com/project-data/):\n    \n    - Connect to the [Realtime API stream](https://enterprise.wikimedia.com/docs/realtime/) to have all article revisions (updates) pushed directly to your system as they happen.\n        \n    - Use [Realtime: Batch](https://enterprise.wikimedia.com/docs/realtime/) to download new updates in a tarball (.tar.gz). These are updated on the hour with the last day of updates available.\n        \n\n# First Step: Sign Up\n\n_Note: if you are a Wikimedia community member, you can get exclusive access to Wikimedia Enterprise APIs. Find out more_ [<i>here</i>](https://meta.wikimedia.org/wiki/Wikimedia_Enterprise#Access)_._\n\nTo get started, [sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/?utm_source=website&utm_medium=cta&utm_campaign=signup&utm_content=docs-start) (_no credit card required_), verify your email, then follow the next steps on this page.\n\n# Getting your access tokens\n\nNow that you've set up and verified your account, send the **username** (_all lowercase_)**and password you created** to the [/login endpoint](https://enterprise.wikimedia.com/docs/authentication/) to receive your tokens.\n\nWikimedia Enterprise **APIs use JWT authentication passed in the header** for access verification. All API requests must be made over HTTPS and must pass that Bearer access token in the header; without it the requests will fail.\n\n```\ncurl -L https://auth.enterprise.wikimedia.com/v1/login -H \"Content-Type: application/json\" -d '{\"username\":\"yourusername\", \"password\":\"secret\"}'\n\n ```\n\nRefresh tokens expire in 90 days.  \nAccess and ID tokens expire in 24 hours.  \nUse your Refresh token to obtain a new Access token before it expires.\n\n_An important reminder: Your credentials carry many privileges related to your account, so be careful to keep them secure. Do not share your credentials in publicly accessible areas such as GitHub, client-side code, etc._\n\n# Make your first API Calls\n\nNow you are ready to make your first call. Start by running this cURL command, with your access token in the `ACCESS_TOKEN` shell variable (`export ACCESS_TOKEN=...`). You'll receive a list of all [supported projects](https://enterprise.wikimedia.com/project-data/) available to you in our APIs, including the project name, identifier, language, and more.\n\n_**Note:**_ the project identifier (e.g. \"`enwiki`\" for English Wikipedia) is the identifier you will use to identify the project and language in requests.\n\n``` bash\ncurl -H \"Authorization: Bearer $ACCESS_TOKEN\" -L https://api.enterprise.wikimedia.com/v2/projects\n\n ```\n\nNext, try using the [Snapshot API](https://enterprise.wikimedia.com/docs/snapshot/). Run this cURL command to download a compressed file (_HTML dump_) containing every article in English Wikipedia (_it's large_).\n\n_**Note:**_ _the \"Snapshot identifier\" is constructed with 3 items from our_ [<i>metadata endpoints</i>](https://enterprise.wikimedia.com/docs/metadata/)_: <_[<i>language</i>](https://enterprise.wikimedia.com/docs/metadata/)_\\><_[<i>project_name</i>](https://enterprise.wikimedia.com/docs/metadata/)_\\>_namespace_<[<i>number</i>](https://enterprise.wikimedia.com/docs/metadata/)__>_\n\nUncompress that file to see NDJSON with each line representing a single article in the project. An [example of an article's payload](https://enterprise.wikimedia.com/api/) can be seen on our API page, and to learn more about each field in the payload, see our [data dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/).\n\n``` bash\ncurl -H \"Authorization: Bearer $ACCESS_TOKEN\" -L https://api.enterprise.wikimedia.com/v2/snapshots/enwiki_namespace_0/download --output enwiki.tar.gz\n\n ```\n\nNext, try calling the [On-demand API](https://enterprise.wikimedia.com/docs/on-demand/#article-lookup) to get single article (page) of interest. Let's use NASA in English Wikipedia as an example, with this cURL command.\n\n``` bash\ncurl -X 'POST' \\\n  'https://api.enterprise.wikimedia.com/v2/articles/NASA' \\\n  -H 'accept: application/json' \\\n  -H 'Authorization: Bearer $ACCESS_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ],\n  \"limit\": 1\n}'\n\n ```\n\nYou'll receive a JSON response containing the same article data and format represented in the Snapshot API's file. The main difference here (_besides being able to query pages individually_) is that this response returns the live version of the article that is actively on the project today, whereas snapshots update daily with a paid account or monthly with a free account.\n\n# **Software Development Kits (SDKs)**\n\n[Go SDK](https://github.com/wikimedia-enterprise/wme-sdk-go)\n\n[Python SDK](https://github.com/wikimedia-enterprise/wme-sdk-python)\n\n# **Next Steps**\n\nYou've created your account and made your first calls to Wikimedia Enterprise.\n\n- Choose which [Wikimedia Enterprise APIs](https://enterprise.wikimedia.com/api/) fit your use case and start making some requests.\n    \n- The [data dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/) explains our schema and response fields.\n    \n- Import the [OpenAPI definition YAML file](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) into your favorite API discovery platform.\n    \n- The [Best Practices](https://enterprise.wikimedia.com/docs/best-practices/) page describes optimal ways of using the Wikimedia Enterprise APIs.\n    \n\nIf you have some additional questions, look through the [FAQs](https://helpcenter.enterprise.wikimedia.com/) or use [your account dashboard](https://dashboard.enterprise.wikimedia.com/) to contact support or provide feedback.\n\nWikimedia Enterprise operates a status page at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/) displaying uptime history and current status.\n\nIf you are interested in daily Snapshot dumps, Realtime firehose, or additional egress, [contact us](https://enterprise.wikimedia.com/contact/).",
+    "description": "# Quick Links\n\n- [Wikimedia Enterprise APIs overview](https://enterprise.wikimedia.com/api/)\n    \n- [Reference Documentation](https://enterprise.wikimedia.com/docs/)\n    \n- [OpenAPI definition (YAML)](https://enterprise.wikimedia.com/docs/api/wme-api.yaml)\n    \n- [Data Schema Explanation: Data Dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/)\n    \n- [Best Practices](https://enterprise.wikimedia.com/docs/best-practices/)\n    \n\n**Disclaimer: this Postman Collection is not meant as complete reference documentation. It is meant to be used for endpoint discovery and testing purposes. It describes the most-used endpoints and methods, but it does not exhaustively list every endpoint and method. For complete refdocs, please visit** [enterprise.wikimedia.com/docs/](https://enterprise.wikimedia.com/docs/)\n\n# Using this collection\n\n1. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.\n2. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:\n    - `wmeUsername`: your Wikimedia Enterprise username, in lowercase\n    - `wmePassword`: your Wikimedia Enterprise password\n\n    In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both secrets. That's the only place the collection sends your credentials, and Postman won't use them for any other site.\n3. **Let the collection read the vault.** In the vault, click the settings icon at the top right and turn on **Allow Vault secrets in scripts**.\n4. **Send a request.** Open **On-demand API > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks \"Grant Vault access for this execution?\": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.\n\nYou don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.\n\n**If a request fails:**\n\n- **\"Wikimedia Enterprise credentials not found\":** check that both secrets exist with exactly those names (step 2) and that **Allow Vault secrets in scripts** is on (step 3).\n- **You chose Deny Access by mistake:** in the vault, open **Settings**, then the **Manage access** tab, and click **Grant Access** next to the collection.\n- **401 Unauthorized:** check your username and password in the vault. The Postman Console (at the bottom of the window) shows each login and refresh.\n\n# Introduction\n\nWikimedia Enterprise is a [suite of APIs](https://enterprise.wikimedia.com/api/) designed for **high-volume read-only access to Wikipedia and other** [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/). These APIs have been developed and are maintained by the Wikimedia Foundation. All endpoints return data in a consistent schema, so you can combine articles from Snapshot, On-demand, or Realtime without creating separate parsers. Our Snapshot and Realtime: Batch endpoints return tar.gz files and an NDJSON header. All other API endpoints return JSON by default.\n\nRead our [Data Primer](https://enterprise.wikimedia.com/about/data-primer/) to understand how data from Wikimedia projects is created and maintained. With Wikimedia Enterprise APIs, you can:\n\n- **Download an entire Wikimedia project** (HTML Database Dump)\n    \n    - Call the [Snapshot API](https://enterprise.wikimedia.com/docs/snapshot/) to receive a binary data file (compressed into a .tar.gz file) containing every single article in a specific project, e.g. all of English Wikipedia or German Wiktionary.\n        \n- **Request the latest public version of a single article**:\n    \n    - Query the [On-demand API](https://enterprise.wikimedia.com/docs/on-demand/) by article name, like \"Albert_Einstein\" or \"SpaceX\", to receive the most recent article version in all projects. You can also use filters for language and/or project of choice.\n        \n- **Stream real-time updates** (firehose) from [supported projects](https://enterprise.wikimedia.com/project-data/):\n    \n    - Connect to the [Realtime API stream](https://enterprise.wikimedia.com/docs/realtime/) to have all article revisions (updates) pushed directly to your system as they happen.\n        \n    - Use [Realtime: Batch](https://enterprise.wikimedia.com/docs/realtime/) to download new updates in a tarball (.tar.gz). These are updated on the hour with the last day of updates available.\n        \n\n# First Step: Sign Up\n\n_Note: if you are a Wikimedia community member, you can get exclusive access to Wikimedia Enterprise APIs. Find out more_ [<i>here</i>](https://meta.wikimedia.org/wiki/Wikimedia_Enterprise#Access)_._\n\nTo get started, [sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/?utm_source=website&utm_medium=cta&utm_campaign=signup&utm_content=docs-start) (_no credit card required_), verify your email, then follow the next steps on this page.\n\n# Getting your access tokens\n\nNow that you've set up and verified your account, send the **username** (_all lowercase_)**and password you created** to the [/login endpoint](https://enterprise.wikimedia.com/docs/authentication/) to receive your tokens.\n\nWikimedia Enterprise **APIs use JWT authentication passed in the header** for access verification. All API requests must be made over HTTPS and must pass that Bearer access token in the header; without it the requests will fail.\n\n```\ncurl -L https://auth.enterprise.wikimedia.com/v1/login -H \"Content-Type: application/json\" -d '{\"username\":\"yourusername\", \"password\":\"secret\"}'\n\n ```\n\nRefresh tokens expire in 90 days.  \nAccess and ID tokens expire in 24 hours.  \nUse your Refresh token to obtain a new Access token before it expires.\n\n_An important reminder: Your credentials carry many privileges related to your account, so be careful to keep them secure. Do not share your credentials in publicly accessible areas such as GitHub, client-side code, etc._\n\n# Make your first API Calls\n\nNow you are ready to make your first call. Start by running this cURL command, with your access token in the `ACCESS_TOKEN` shell variable (`export ACCESS_TOKEN=...`). You'll receive a list of all [supported projects](https://enterprise.wikimedia.com/project-data/) available to you in our APIs, including the project name, identifier, language, and more.\n\n_**Note:**_ the project identifier (e.g. \"`enwiki`\" for English Wikipedia) is the identifier you will use to identify the project and language in requests.\n\n``` bash\ncurl -H \"Authorization: Bearer $ACCESS_TOKEN\" -L https://api.enterprise.wikimedia.com/v2/projects\n\n ```\n\nNext, try using the [Snapshot API](https://enterprise.wikimedia.com/docs/snapshot/). Run this cURL command to download a compressed file (_HTML dump_) containing every article in English Wikipedia (_it's large_).\n\n_**Note:**_ _the \"Snapshot identifier\" is constructed with 3 items from our_ [<i>metadata endpoints</i>](https://enterprise.wikimedia.com/docs/metadata/)_: <_[<i>language</i>](https://enterprise.wikimedia.com/docs/metadata/)_\\><_[<i>project_name</i>](https://enterprise.wikimedia.com/docs/metadata/)_\\>_namespace_<[<i>number</i>](https://enterprise.wikimedia.com/docs/metadata/)__>_\n\nUncompress that file to see NDJSON with each line representing a single article in the project. An [example of an article's payload](https://enterprise.wikimedia.com/api/) can be seen on our API page, and to learn more about each field in the payload, see our [data dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/).\n\n``` bash\ncurl -H \"Authorization: Bearer $ACCESS_TOKEN\" -L https://api.enterprise.wikimedia.com/v2/snapshots/enwiki_namespace_0/download --output enwiki.tar.gz\n\n ```\n\nNext, try calling the [On-demand API](https://enterprise.wikimedia.com/docs/on-demand/#article-lookup) to get single article (page) of interest. Let's use NASA in English Wikipedia as an example, with this cURL command.\n\n``` bash\ncurl -X 'POST' \\\n  'https://api.enterprise.wikimedia.com/v2/articles/NASA' \\\n  -H 'accept: application/json' \\\n  -H 'Authorization: Bearer $ACCESS_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ],\n  \"limit\": 1\n}'\n\n ```\n\nYou'll receive a JSON response containing the same article data and format represented in the Snapshot API's file. The main difference here (_besides being able to query pages individually_) is that this response returns the live version of the article that is actively on the project today, whereas snapshots update daily with a paid account or monthly with a free account.\n\n# **Software Development Kits (SDKs)**\n\n[Go SDK](https://github.com/wikimedia-enterprise/wme-sdk-go)\n\n[Python SDK](https://github.com/wikimedia-enterprise/wme-sdk-python)\n\n# **Next Steps**\n\nYou've created your account and made your first calls to Wikimedia Enterprise.\n\n- Choose which [Wikimedia Enterprise APIs](https://enterprise.wikimedia.com/api/) fit your use case and start making some requests.\n    \n- The [data dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/) explains our schema and response fields.\n    \n- Import the [OpenAPI definition YAML file](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) into your favorite API discovery platform.\n    \n- The [Best Practices](https://enterprise.wikimedia.com/docs/best-practices/) page describes optimal ways of using the Wikimedia Enterprise APIs.\n    \n\nIf you have some additional questions, look through the [FAQs](https://helpcenter.enterprise.wikimedia.com/) or use [your account dashboard](https://dashboard.enterprise.wikimedia.com/) to contact support or provide feedback.\n\nWikimedia Enterprise operates a status page at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/) displaying uptime history and current status.\n\nIf you are interested in daily Snapshot dumps, Realtime firehose, or additional egress, [contact us](https://enterprise.wikimedia.com/contact/).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "7254444"
   },
@@ -559,233 +559,8 @@
       "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/metadata/](https://enterprise.wikimedia.com/docs/metadata/)\n\nMetadata endpoints provide the reference data you'll need to use the APIs effectively. These utility endpoints return project codes, language identifiers, and namespace mappings. This information helps you build accurate API queries, filter results by project or language, and understand the structure of article responses."
     },
     {
-      "name": "Snapshot",
+      "name": "Snapshot API",
       "item": [
-        {
-          "name": "Structured Contents Snapshots",
-          "item": [
-            {
-              "name": "Structured Contents Snapshots Available (Beta)",
-              "request": {
-                "method": "POST",
-                "header": [],
-                "url": {
-                  "raw": "{{api_server}}/v2/snapshots/structured-contents",
-                  "host": [
-                    "{{api_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "snapshots",
-                    "structured-contents"
-                  ]
-                },
-                "description": "Returns a list of available project Structured Contents snapshots.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents)"
-              },
-              "response": []
-            },
-            {
-              "name": "Structured Contents Snapshot Info (Beta)",
-              "request": {
-                "method": "POST",
-                "header": [],
-                "url": {
-                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}",
-                  "host": [
-                    "{{api_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "snapshots",
-                    "structured-contents",
-                    "{{snapshot_identifier}}"
-                  ]
-                },
-                "description": "Information on a specific Structured Contents snapshot bundle.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier})"
-              },
-              "response": [
-                {
-                  "name": "Structured Contents Snapshot Info (Beta)",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0",
-                      "host": [
-                        "{{api_server}}"
-                      ],
-                      "path": [
-                        "v2",
-                        "snapshots",
-                        "structured-contents",
-                        "enwiki_namespace_0"
-                      ]
-                    }
-                  },
-                  "_postman_previewlanguage": "",
-                  "header": [],
-                  "cookie": [
-                    {
-                      "expires": "Invalid Date",
-                      "domain": "",
-                      "path": ""
-                    }
-                  ],
-                  "body": ""
-                }
-              ]
-            },
-            {
-              "name": "Structured Contents Snapshot Download (Beta)",
-              "request": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Range",
-                    "value": "",
-                    "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}/download",
-                  "host": [
-                    "{{api_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "snapshots",
-                    "structured-contents",
-                    "{{snapshot_identifier}}",
-                    "download"
-                  ]
-                },
-                "description": "Downloadable bundle of Structured Contents of all current revisions in a specified project and namespace. Updated daily at 12:00 UTC.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download)"
-              },
-              "response": []
-            },
-            {
-              "name": "Structured Contents Snapshot Download Headers (Beta)",
-              "request": {
-                "method": "HEAD",
-                "header": [
-                  {
-                    "key": "Range",
-                    "value": "",
-                    "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}/download",
-                  "host": [
-                    "{{api_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "snapshots",
-                    "structured-contents",
-                    "{{snapshot_identifier}}",
-                    "download"
-                  ]
-                },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download)"
-              },
-              "response": [
-                {
-                  "name": "Structured Contents Snapshot Download Headers (Beta)",
-                  "originalRequest": {
-                    "method": "HEAD",
-                    "header": [
-                      {
-                        "key": "Range",
-                        "value": "",
-                        "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0/download",
-                      "host": [
-                        "{{api_server}}"
-                      ],
-                      "path": [
-                        "v2",
-                        "snapshots",
-                        "structured-contents",
-                        "enwiki_namespace_0",
-                        "download"
-                      ]
-                    }
-                  },
-                  "status": "OK",
-                  "code": 200,
-                  "_postman_previewlanguage": "",
-                  "header": [
-                    {
-                      "key": "date",
-                      "value": "Mon, 23 Mar 2026 12:24:46 GMT"
-                    },
-                    {
-                      "key": "content-type",
-                      "value": "binary/octet-stream"
-                    },
-                    {
-                      "key": "content-length",
-                      "value": "33872446660"
-                    },
-                    {
-                      "key": "accept-ranges",
-                      "value": "bytes"
-                    },
-                    {
-                      "key": "access-control-expose-headers",
-                      "value": "Accept-Ranges, Last-Modified, Content-Length, ETag, Cache-Control, Content-Disposition, Content-Encoding, Content-Type, Expires"
-                    },
-                    {
-                      "key": "etag",
-                      "value": "\"8e8ba23234aa737698666942e7c6f14f-339\""
-                    },
-                    {
-                      "key": "last-modified",
-                      "value": "Mon, 23 Mar 2026 00:03:08 UTC"
-                    },
-                    {
-                      "key": "x-request-id",
-                      "value": "a5afad32-1dbb-44cc-8d77-fd683e2317fe"
-                    },
-                    {
-                      "key": "x-envoy-upstream-service-time",
-                      "value": "18"
-                    },
-                    {
-                      "key": "server",
-                      "value": "istio-envoy"
-                    }
-                  ],
-                  "cookie": [
-                    {
-                      "expires": "Invalid Date",
-                      "domain": "",
-                      "path": ""
-                    }
-                  ],
-                  "body": ""
-                }
-              ]
-            }
-          ],
-          "description": "See: [https://enterprise.wikimedia.com/api/structured-contents/](https://enterprise.wikimedia.com/api/structured-contents/)\n\nStructured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nStructured Contents currently extracts the following article pieces into JSON:\n\n- `abstract`\n    \n- `description`\n    \n- `main image`\n    \n- `infobox`\n    \n- `sections`\n    \n- `lists`\n    \n- `citations` & `references`\n    \n- `tables`"
-        },
         {
           "name": "Snapshots Available",
           "request": {
@@ -1023,7 +798,7 @@
           ]
         },
         {
-          "name": "Download Snapshot Chunk",
+          "name": "Snapshot Chunk Download",
           "request": {
             "method": "GET",
             "header": [
@@ -1053,7 +828,7 @@
           "response": []
         },
         {
-          "name": "Download Snapshot Chunk Headers",
+          "name": "Snapshot Chunk Download Headers",
           "request": {
             "method": "HEAD",
             "header": [
@@ -1082,7 +857,7 @@
           },
           "response": [
             {
-              "name": "Download Snapshot Chunk Headers",
+              "name": "Snapshot Chunk Download Headers",
               "originalRequest": {
                 "method": "HEAD",
                 "header": [
@@ -1120,15 +895,346 @@
               "body": ""
             }
           ]
+        },
+        {
+          "name": "Structured Contents Snapshots (Beta)",
+          "item": [
+            {
+              "name": "Structured Contents Snapshots Available (Beta)",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/structured-contents",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "structured-contents"
+                  ]
+                },
+                "description": "Returns a list of available project Structured Contents snapshots.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents)"
+              },
+              "response": []
+            },
+            {
+              "name": "Structured Contents Snapshot Info (Beta)",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "structured-contents",
+                    "{{snapshot_identifier}}"
+                  ]
+                },
+                "description": "Information on a specific Structured Contents snapshot bundle.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier})"
+              },
+              "response": [
+                {
+                  "name": "Structured Contents Snapshot Info (Beta)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "structured-contents",
+                        "enwiki_namespace_0"
+                      ]
+                    }
+                  },
+                  "_postman_previewlanguage": "",
+                  "header": [],
+                  "cookie": [
+                    {
+                      "expires": "Invalid Date",
+                      "domain": "",
+                      "path": ""
+                    }
+                  ],
+                  "body": ""
+                }
+              ]
+            },
+            {
+              "name": "Structured Contents Snapshot Download (Beta)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Range",
+                    "value": "",
+                    "description": "The Range HTTP request header indicates the part of a document that the server should return.",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}/download",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "structured-contents",
+                    "{{snapshot_identifier}}",
+                    "download"
+                  ]
+                },
+                "description": "Downloadable bundle of Structured Contents of all current revisions in a specified project and namespace. Updated daily at 12:00 UTC.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download)"
+              },
+              "response": []
+            },
+            {
+              "name": "Structured Contents Snapshot Download Headers (Beta)",
+              "request": {
+                "method": "HEAD",
+                "header": [
+                  {
+                    "key": "Range",
+                    "value": "",
+                    "description": "The Range HTTP request header indicates the part of a document that the server should return.",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/structured-contents/{{snapshot_identifier}}/download",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "structured-contents",
+                    "{{snapshot_identifier}}",
+                    "download"
+                  ]
+                },
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download)"
+              },
+              "response": [
+                {
+                  "name": "Structured Contents Snapshot Download Headers (Beta)",
+                  "originalRequest": {
+                    "method": "HEAD",
+                    "header": [
+                      {
+                        "key": "Range",
+                        "value": "",
+                        "description": "The Range HTTP request header indicates the part of a document that the server should return.",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "structured-contents",
+                        "enwiki_namespace_0",
+                        "download"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "",
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Mon, 23 Mar 2026 12:24:46 GMT"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "binary/octet-stream"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "33872446660"
+                    },
+                    {
+                      "key": "accept-ranges",
+                      "value": "bytes"
+                    },
+                    {
+                      "key": "access-control-expose-headers",
+                      "value": "Accept-Ranges, Last-Modified, Content-Length, ETag, Cache-Control, Content-Disposition, Content-Encoding, Content-Type, Expires"
+                    },
+                    {
+                      "key": "etag",
+                      "value": "\"8e8ba23234aa737698666942e7c6f14f-339\""
+                    },
+                    {
+                      "key": "last-modified",
+                      "value": "Mon, 23 Mar 2026 00:03:08 UTC"
+                    },
+                    {
+                      "key": "x-request-id",
+                      "value": "a5afad32-1dbb-44cc-8d77-fd683e2317fe"
+                    },
+                    {
+                      "key": "x-envoy-upstream-service-time",
+                      "value": "18"
+                    },
+                    {
+                      "key": "server",
+                      "value": "istio-envoy"
+                    }
+                  ],
+                  "cookie": [
+                    {
+                      "expires": "Invalid Date",
+                      "domain": "",
+                      "path": ""
+                    }
+                  ],
+                  "body": ""
+                }
+              ]
+            }
+          ],
+          "description": "See: [https://enterprise.wikimedia.com/api/structured-contents/](https://enterprise.wikimedia.com/api/structured-contents/)\n\nStructured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nStructured Contents currently extracts the following article pieces into JSON:\n\n- `abstract`\n    \n- `description`\n    \n- `main image`\n    \n- `infobox`\n    \n- `sections`\n    \n- `lists`\n    \n- `citations` & `references`\n    \n- `tables`"
         }
       ],
       "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/snapshot/](https://enterprise.wikimedia.com/docs/snapshot/)\n\nOur Snapshot API provides you the entirety of a Wikimedia project (examples: English Wikipedia or French Wiktionary) in a compressed tarball (.tar.gz) that contains a single .ndjson file. This file holds all articles (pages), with all data fields, in Newline-Delimited JSON format. **Updated once a month, on the 1st day of the month**, these snapshots are **provided free** with an account. A free account also includes Structured Contents snapshots.\n\nUse our [metadata endpoints](https://enterprise.wikimedia.com/docs/metadata/) to find the project snapshot(s) you need and make use of parallel downloading headers or chunking to break up large files. Feel free to reference our [Data Dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/) for information about the fields in the payload.\n\nIf you need fresher data, you can get up to daily snapshot updates by [contacting Sales](https://enterprise.wikimedia.com/contact/).\n\n_Note: Snapshots, Structured Contents snapshots, and chunks may contain a small amount of duplicate articles (< 1%). Similarly, they may contain a small amount of deleted articles.__When encountering more than one instance of an article, please use the one with the highest version.identifier number. This will be the latest among the duplicates.__When encountering deleted articles, please download the successive snapshots. The deleted articles will be removed in the successive generation of these snapshots, Structured Contents snapshots, and chunks._"
     },
     {
-      "name": "On-demand",
+      "name": "On-demand API",
       "item": [
         {
-          "name": "Wikidata On-demand",
+          "name": "Article Lookup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_server}}/v2/articles/{{articlename}}",
+              "host": [
+                "{{api_server}}"
+              ],
+              "path": [
+                "v2",
+                "articles",
+                "{{articlename}}"
+              ]
+            },
+            "description": "Most current revision of an article.\n\nRequired: `{{articlename}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name}](https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name})"
+          },
+          "response": []
+        },
+        {
+          "name": "Structured Contents Article Lookup (Beta)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_server}}/v2/structured-contents/{{articlename}}",
+              "host": [
+                "{{api_server}}"
+              ],
+              "path": [
+                "v2",
+                "structured-contents",
+                "{{articlename}}"
+              ]
+            },
+            "description": "Structured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nReturns the Structured Contents of the current version of an article.\n\nRequired: `{{articlename}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name}](https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name})"
+          },
+          "response": []
+        },
+        {
+          "name": "Wikidata (Beta)",
           "item": [
             {
               "name": "Wikidata Item Lookup (Beta)",
@@ -1195,149 +1301,118 @@
             }
           ],
           "description": "Reference Documentation: [https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta](https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta)\n\nWikidata is the central knowledge base for the structured data of Wikimedia's projects: Wikipedia, Wikivoyage, Wiktionary, and more. It connects data from disparate Wikimedia projects and languages, as well as hundreds of external databases and knowledge bases, through their identifiers. In this way, Wikidata is a hub of linked knowledge. It currently contains over 120 million items, structured as Linked Open Data.\n\n| Endpoint Name | Primary Purpose | Required identifier |\n| --- | --- | --- |\n| Item Lookup | Get all data and metadata of the last revision of an item: revision info, labels, descriptions, statements, sitelinks | Q-number (e.g., Q42: Douglas Adams) |\n| Property Lookup | Retrieve all information about a property, a single category that connects statements | P-number (e.g., P106: occupation) |"
-        },
-        {
-          "name": "Structured Contents On-demand",
-          "item": [
-            {
-              "name": "Structured Contents Article Lookup (Beta)",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      ""
-                    ],
-                    "type": "text/javascript",
-                    "packages": {},
-                    "requests": {}
-                  }
-                },
-                {
-                  "listen": "prerequest",
-                  "script": {
-                    "exec": [
-                      ""
-                    ],
-                    "type": "text/javascript",
-                    "packages": {},
-                    "requests": {}
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{api_server}}/v2/structured-contents/{{articlename}}",
-                  "host": [
-                    "{{api_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "structured-contents",
-                    "{{articlename}}"
-                  ]
-                },
-                "description": "Lookup for the structured representation of the Article.\n\nRequired: `{{articlename}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name}](https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name})"
-              },
-              "response": []
-            }
-          ],
-          "description": "See: [https://enterprise.wikimedia.com/api/structured-contents/](https://enterprise.wikimedia.com/api/structured-contents/)\n\nStructured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nStructured Contents currently extracts the following article pieces into JSON:\n\n- `abstract`\n    \n- `description`\n    \n- `main image`\n    \n- `infobox`\n    \n- `sections`\n    \n- `lists`\n    \n- `citations` & `references`\n    \n- `tables`"
-        },
-        {
-          "name": "Article Lookup",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ]\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{api_server}}/v2/articles/{{articlename}}",
-              "host": [
-                "{{api_server}}"
-              ],
-              "path": [
-                "v2",
-                "articles",
-                "{{articlename}}"
-              ]
-            },
-            "description": "Most current revision of an article.\n\nRequired: `{{articlename}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name}](https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name})"
-          },
-          "response": []
         }
       ],
       "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/on-demand](https://enterprise.wikimedia.com/docs/on-demand)\n\nOur On-demand REST API returns the current version of any article from all [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/). Query by article name across all projects or use [metadata filtering](https://enterprise.wikimedia.com/docs/metadata/) to request by project and language, with more options to optimize response payloads. On-demand returns JSON by default, but if you would prefer an NDJSON response be sure to include the `Accept: application/x-ndjson` header in your requests.\n\nThe [Structured Contents articles endpoint](https://enterprise.wikimedia.com/docs/on-demand/) is our sandbox beta endpoint that includes fully parsed Wikipedia Infobox and article sections data in JSON."
     },
     {
-      "name": "Realtime",
+      "name": "Realtime API",
       "item": [
         {
-          "name": "Wikidata Realtime",
-          "item": [
+          "name": "Article Updates (Streaming)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{realtime_server}}/v2/articles",
+              "host": [
+                "{{realtime_server}}"
+              ],
+              "path": [
+                "v2",
+                "articles"
+              ]
+            },
+            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. The event type is found in the article.event.type field. Possible values are `update`, `delete`, and `visibility-change.`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
+          },
+          "response": [
             {
-              "name": "Wikidata Realtime Stream",
-              "request": {
-                "method": "POST",
-                "header": [],
+              "name": "Selected fields",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/x-ndjson"
+                  }
+                ],
                 "url": {
-                  "raw": "{{realtime_server}}/v2/wikidata",
+                  "raw": "{{realtime_server}}/v2/articles?fields=name&fields=identifier&fields=date_modified&fields=event.type&fields=event.date_created&fields=is_part_of.identifier&fields=version.identifier&fields=url",
                   "host": [
                     "{{realtime_server}}"
                   ],
                   "path": [
                     "v2",
-                    "wikidata"
+                    "articles"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "name"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "identifier"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "date_modified"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "event.type"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "event.date_created"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "is_part_of.identifier"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "version.identifier"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "url"
+                    }
                   ]
-                },
-                "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
+                }
               },
-              "response": []
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/x-ndjson; charset=utf-8"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"name\":\"Katerin Stadyumu\",\"identifier\":4757317,\"date_modified\":\"2026-10-09T02:01:28Z\",\"version\":{\"identifier\":38212884},\"url\":\"https://tr.wikipedia.org/wiki/Katerin_Stadyumu\",\"is_part_of\":{\"identifier\":\"trwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:29.652867Z\",\"partition\":39,\"offset\":5187045}}\n{\"name\":\"Billy Carter (ice hockey)\",\"identifier\":16166560,\"date_modified\":\"2026-10-09T02:01:27Z\",\"version\":{\"identifier\":1379287906},\"url\":\"https://en.wikipedia.org/wiki/Billy_Carter_(ice_hockey)\",\"is_part_of\":{\"identifier\":\"enwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:29.323844Z\",\"partition\":21,\"offset\":5187993}}\n{\"name\":\"100 mètres masculin aux Championnats d'Europe d'Athlétisme 2026\",\"identifier\":17654964,\"date_modified\":\"2026-10-09T02:01:27Z\",\"version\":{\"identifier\":240202820},\"url\":\"https://fr.wikipedia.org/wiki/100_m%C3%A8tres_masculin_aux_Championnats_d%27Europe_d%27Athl%C3%A9tisme_2026\",\"is_part_of\":{\"identifier\":\"frwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:28.580915Z\",\"partition\":40,\"offset\":5191796}}"
             }
-          ],
-          "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)"
+          ]
+        },
+        {
+          "name": "Wikidata Updates (Streaming)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{realtime_server}}/v2/wikidata",
+              "host": [
+                "{{realtime_server}}"
+              ],
+              "path": [
+                "v2",
+                "wikidata"
+              ]
+            },
+            "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
+          },
+          "response": []
         },
         {
           "name": "Realtime: Batch",
@@ -1490,93 +1565,6 @@
             }
           ],
           "description": "Realtime: Batch bundles each hour's article updates into downloadable files, generated hourly starting at 00:00 UTC. Use it to get real-time updates without keeping a streaming connection open.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)"
-        },
-        {
-          "name": "Article Updates (Streaming)",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{realtime_server}}/v2/articles",
-              "host": [
-                "{{realtime_server}}"
-              ],
-              "path": [
-                "v2",
-                "articles"
-              ]
-            },
-            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. The event type is found in the article.event.type field. Possible values are `update`, `delete`, and `visibility-change.`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
-          },
-          "response": [
-            {
-              "name": "Selected fields",
-              "originalRequest": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/x-ndjson"
-                  }
-                ],
-                "url": {
-                  "raw": "{{realtime_server}}/v2/articles?fields=name&fields=identifier&fields=date_modified&fields=event.type&fields=event.date_created&fields=is_part_of.identifier&fields=version.identifier&fields=url",
-                  "host": [
-                    "{{realtime_server}}"
-                  ],
-                  "path": [
-                    "v2",
-                    "articles"
-                  ],
-                  "query": [
-                    {
-                      "key": "fields",
-                      "value": "name"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "identifier"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "date_modified"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "event.type"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "event.date_created"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "is_part_of.identifier"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "version.identifier"
-                    },
-                    {
-                      "key": "fields",
-                      "value": "url"
-                    }
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "text",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/x-ndjson; charset=utf-8"
-                }
-              ],
-              "cookie": [],
-              "body": "{\"name\":\"Katerin Stadyumu\",\"identifier\":4757317,\"date_modified\":\"2026-10-09T02:01:28Z\",\"version\":{\"identifier\":38212884},\"url\":\"https://tr.wikipedia.org/wiki/Katerin_Stadyumu\",\"is_part_of\":{\"identifier\":\"trwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:29.652867Z\",\"partition\":39,\"offset\":5187045}}\n{\"name\":\"Billy Carter (ice hockey)\",\"identifier\":16166560,\"date_modified\":\"2026-10-09T02:01:27Z\",\"version\":{\"identifier\":1379287906},\"url\":\"https://en.wikipedia.org/wiki/Billy_Carter_(ice_hockey)\",\"is_part_of\":{\"identifier\":\"enwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:29.323844Z\",\"partition\":21,\"offset\":5187993}}\n{\"name\":\"100 mètres masculin aux Championnats d'Europe d'Athlétisme 2026\",\"identifier\":17654964,\"date_modified\":\"2026-10-09T02:01:27Z\",\"version\":{\"identifier\":240202820},\"url\":\"https://fr.wikipedia.org/wiki/100_m%C3%A8tres_masculin_aux_Championnats_d%27Europe_d%27Athl%C3%A9tisme_2026\",\"is_part_of\":{\"identifier\":\"frwiki\"},\"event\":{\"type\":\"update\",\"date_created\":\"2026-10-09T02:01:28.580915Z\",\"partition\":40,\"offset\":5191796}}"
-            }
-          ]
         }
       ],
       "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)\n\nReceive real-time event updates from all [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/) using the streaming (firehose) endpoint, or via batch file endpoints that are generated hourly with changes throughout the day.\n\nStreaming supports server-sent events (SSE) by default or NDJSON when you pass the `Accept: application/x-ndjson` header. Batch files return NDJSON in a tarball (.tar.gz).\n\nEvent types are: update, delete, visibility-change:\n\n- An `update` event type is sent when an article is created, its content is updated, or its name or namespace is changed.\n    \n- A `delete` event type is sent when an article has been deleted.\n    \n- A `visibility-change` event type is sent when the visibility of an article's editor, comment, or content is changed by community volunteers\n    \n\nFor access to Realtime endpoints, [contact our sales team](https://enterprise.wikimedia.com/contact/)."

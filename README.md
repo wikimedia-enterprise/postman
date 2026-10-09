@@ -16,7 +16,7 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
 
     In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both secrets. That's the only place the collection sends your credentials, and Postman won't use them for any other site.
 4. **Let the collection read the vault.** In the vault, click the settings icon at the top right and turn on **Allow Vault secrets in scripts**.
-5. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks "Grant Vault access for this execution?": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.
+5. **Send a request.** Open **On-demand API > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks "Grant Vault access for this execution?": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.
 
 You don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.
 
@@ -49,9 +49,9 @@ You can also run **Authentication > Login** yourself; it stores the tokens in th
 | :--- | :--- |
 | **Authentication** | Login, token refresh, and the forgot-password flow. |
 | **Metadata** | Available projects, languages, namespaces, and project codes. |
-| **Snapshot** | Snapshot API: list, inspect, and download project snapshots and their chunks, including Structured Contents snapshots (Beta). |
-| **On-demand** | On-demand API: look up the current version of an article, its Structured Contents (Beta), and Wikidata items, properties, and labels (Beta). |
-| **Realtime** | Realtime API: streaming article and Wikidata updates, and Realtime: Batch hourly files. |
+| **Snapshot API** | List, inspect, and download project snapshots and their chunks. The **Structured Contents Snapshots (Beta)** folder does the same for Structured Contents snapshots. |
+| **On-demand API** | Look up the current version of an article and its Structured Contents (Beta). The **Wikidata (Beta)** folder looks up Wikidata items, properties, and labels. |
+| **Realtime API** | Stream article and Wikidata updates. The **Realtime: Batch** folder lists and downloads the hourly batch files. |
 
 Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
