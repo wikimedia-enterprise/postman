@@ -10,7 +10,7 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
 
 1. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (in Postman, click **Import** and choose the file).
 2. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
-3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. In your local vault, click **Add new secret** and create two secrets:
+3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
     - `wmePassword`: your Wikimedia Enterprise password
 4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Enable support in scripts**, and click **Enable**.
