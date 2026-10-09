@@ -8,12 +8,21 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
 
 ## Quick start
 
-1. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
-2. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (Postman: **Import**, then choose the file).
-3. **Add your credentials to the Postman Vault.** Create two vault secrets, `wmeUsername` and `wmePassword`, with your Wikimedia Enterprise username and password. In the vault's settings, turn on **Enable support in scripts**, and allow the collection when Postman asks.
-4. **Send a request.** Open **On-demand > Article Lookup**, set the `articlename` collection variable to an article name such as `NASA`, and send it. The collection logs in for you the first time and keeps your access token fresh after that.
+1. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (in Postman, click **Import** and choose the file).
+2. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
+3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. In your local vault, click **Add new secret** and create two secrets:
+    - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
+    - `wmePassword`: your Wikimedia Enterprise password
+4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Enable support in scripts**, and click **Enable**.
+5. **Send a request.** In the collection's **Variables** tab, set `articlename` to `NASA` and save. Then open **On-demand > Article Lookup** and click **Send**. The first time, Postman asks whether the collection can use your vault: choose **Only this collection** and click **Grant Access**. The collection logs in for you and the request returns the article.
 
-No environment is needed. Tokens are stored in collection variables, and your credentials stay in your local vault.
+You don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.
+
+**If a request fails:**
+
+- **"Wikimedia Enterprise credentials not found":** check that both secrets exist with exactly those names (step 3) and that script support is on (step 4).
+- **You chose Deny Access by mistake:** in the vault, open **Settings**, then the **Manage access** tab, and click **Grant Access** next to the collection.
+- **401 Unauthorized:** check your username and password in the vault. The Postman Console (at the bottom of the window) shows each login and refresh.
 
 ## How authentication works
 
