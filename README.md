@@ -4,7 +4,7 @@ The Postman collection for the Wikimedia Enterprise APIs, maintained by the Wiki
 
 [![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/wikimedia-enterprise)
 
-The public workspace is at [postman.com/wikimedia-enterprise](https://www.postman.com/wikimedia-enterprise). This repository holds the same collection as a file, `Wikimedia Enterprise APIs.postman_collection.json` (Postman collection format v2.1), which you can import directly.
+The public workspace is at [postman.com/wikimedia-enterprise](https://www.postman.com/wikimedia-enterprise). This repository holds the same collection as a file, `wikimedia-enterprise-apis.postman_collection.json` (Postman collection format v2.1), which you can import directly.
 
 ## Quick start
 
