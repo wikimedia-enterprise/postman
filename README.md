@@ -14,7 +14,7 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
     - `wmePassword`: your Wikimedia Enterprise password
 4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Enable support in scripts**, and click **Enable**.
-5. **Send a request.** In the collection's **Variables** tab, set `articlename` to `NASA` and save. Then open **On-demand > Article Lookup** and click **Send**. The first time, Postman asks whether the collection can use your vault: choose **Only this collection** and click **Grant Access**. The collection logs in for you and the request returns the article.
+5. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The collection logs in for you and the request returns the article. If Postman asks whether the collection can use your vault, choose **Only this collection** and click **Grant Access**.
 
 You don't need to run **Authentication > Login** yourself or set up an environment. The collection logs in before your first request, keeps your tokens in collection variables, and refreshes the access token before it expires.
 
