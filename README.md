@@ -1,6 +1,6 @@
 # Wikimedia Enterprise Postman Collection
 
-The official Postman collection for the Wikimedia Enterprise APIs. Use it to explore the API, try requests, and check responses before you write code.
+The Postman collection for the Wikimedia Enterprise APIs, maintained by the Wikimedia Enterprise team. Use it to explore the API, try requests, and check responses before you write code.
 
 [![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/wikimedia-enterprise)
 
@@ -40,7 +40,7 @@ You can also run **Authentication > Login** yourself; it stores the tokens in th
 | **Metadata** | Available projects, languages, namespaces, and project codes. |
 | **Snapshot** | Snapshot API: list, inspect, and download project snapshots and their chunks, including Structured Contents snapshots (Beta). |
 | **On-demand** | On-demand API: look up the current version of an article, its Structured Contents (Beta), and Wikidata items, properties, and labels (Beta). |
-| **Realtime** | Realtime API: streaming article and Wikidata updates, and Realtime Batch hourly files. |
+| **Realtime** | Realtime API: streaming article and Wikidata updates, and Realtime: Batch hourly files. |
 
 Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
@@ -57,5 +57,3 @@ Found a problem or have a suggestion? [Open an issue](https://github.com/wikimed
 ## License
 
 GPL-3.0. See [LICENSE](LICENSE). Content returned by the APIs comes from Wikipedia and other Wikimedia projects and is licensed under CC BY-SA 4.0.
-
-Maintained by the Wikimedia Enterprise team at the Wikimedia Foundation.
