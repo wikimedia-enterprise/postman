@@ -13,6 +13,8 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
 3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
     - `wmePassword`: your Wikimedia Enterprise password
+
+    In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both secrets. That's the only place the collection sends your credentials, and Postman won't use them for any other site.
 4. **Let the collection read the vault.** In the vault, click the settings icon at the top right, turn on **Allow Vault secrets in scripts**.
 5. **Send a request.** Open **On-demand > Article Lookup**. In the request URL, hover over `{{articlename}}` and type `NASA` in the box that appears. Click **Send**. The first time, Postman asks "Grant Vault access for this execution?": keep **Only this collection** selected and click **Grant Access**. The collection logs in for you and the request returns the article.
 
