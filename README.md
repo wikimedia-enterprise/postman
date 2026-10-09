@@ -57,7 +57,7 @@ The collection covers every endpoint in version 2.0.0 of the API. Where an endpo
 
 ## Usage notes
 
-- **Downloads:** download requests return a `307` redirect to a presigned URL that is valid for 60 seconds. The collection doesn't follow it, because snapshot files can be over 100 GB. Copy the URL from the `Location` header and download it with a tool like `curl --location`. The matching **... Headers** request shows the file size first.
+- **Downloads:** download requests return a `307` redirect to a presigned URL that is valid for 60 seconds. The collection doesn't follow it, because snapshot files can be over 100 GB. Copy the URL from the `Location` header (the response body shows it as a link too) and download it with a tool like `curl --location`. The matching **... Headers** request shows the file size first.
 - **Account limits** depend on your account. Check your usage in the [Dashboard](https://dashboard.enterprise.wikimedia.com/).
 - **Updates:** we update this collection as the API changes. Re-import the file or pull changes into your fork to get new requests.
 - **Status:** current API status is at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/).
