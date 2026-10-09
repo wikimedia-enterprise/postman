@@ -47,16 +47,17 @@ You can also run **Authentication > Login** yourself; it stores the tokens in th
 
 | Folder | What it covers |
 | :--- | :--- |
-| **Authentication** | Login, token refresh, and the forgot-password flow. |
+| **Authentication** | Login, token refresh and revoke, password changes, and the forgot-password flow. |
 | **Metadata** | Available projects, languages, namespaces, and project codes. |
-| **Snapshot API** | List, inspect, and download project snapshots and their chunks. The **Structured Contents Snapshots (Beta)** folder does the same for Structured Contents snapshots. |
+| **Snapshot API** | List, inspect, and download project snapshots and their chunks. The **Structured Contents Snapshots (Beta)** and **Wikidata Snapshots (Beta)** folders do the same for Structured Contents and for Wikidata items and properties. |
 | **On-demand API** | Look up the current version of an article and its Structured Contents (Beta). The **Wikidata (Beta)** folder looks up Wikidata items, properties, and labels. |
-| **Realtime API** | Stream article and Wikidata updates. The **Realtime: Batch** folder lists and downloads the hourly batch files. |
+| **Realtime API** | Stream article and Wikidata updates. The **Realtime: Batch** folder lists and downloads the hourly batch files, for projects and for Wikidata (Beta). |
 
-Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
+The collection covers every endpoint in version 2.0.0 of the API. Where an endpoint also accepts `GET`, the `POST` request's description says so. Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
 ## Usage notes
 
+- **Downloads:** download requests return a `307` redirect to a presigned URL that is valid for 60 seconds. The collection doesn't follow it, because snapshot files can be over 100 GB. Copy the URL from the `Location` header and download it with a tool like `curl --location`. The matching **... Headers** request shows the file size first.
 - **Account limits** depend on your account. Check your usage in the [Dashboard](https://dashboard.enterprise.wikimedia.com/).
 - **Updates:** we update this collection as the API changes. Re-import the file or pull changes into your fork to get new requests.
 - **Status:** current API status is at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/).
