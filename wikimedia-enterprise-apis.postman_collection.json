@@ -108,7 +108,7 @@
                     "login"
                   ]
                 },
-                "description": "From the API reference, with placeholder tokens. Not captured."
+                "description": "From the API reference, with placeholder tokens. Not captured. The access token lasts 24 hours. Use the refresh token with Refresh Token to get a new one, and log in again when the refresh token expires after 90 days or 90 uses."
               },
               "status": "OK",
               "code": 200,
@@ -190,7 +190,52 @@
             },
             "description": "Provides new access and id tokens with your valid username and refresh token.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "New access token (placeholders)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "refresh_token",
+                      "value": "{{refresh_token}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{auth_server}}/v1/token-refresh",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "token-refresh"
+                  ]
+                },
+                "description": "From the API reference, with placeholder tokens. Not captured. Refresh returns a new access token but no new refresh token, so keep using the one from Login."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id_token\": \"ID_TOKEN\",\n  \"access_token\": \"ACCESS_TOKEN\",\n  \"expires_in\": 86400\n}"
+            }
+          ]
         },
         {
           "name": "Revoke Token",
