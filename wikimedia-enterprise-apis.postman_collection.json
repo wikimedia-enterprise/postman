@@ -75,7 +75,7 @@
                 "login"
               ]
             },
-            "description": "Create new access, id, and refresh tokens with your valid username and password.\n\nThe access token lasts 24 hours. When it runs out, use the refresh token with **Refresh Token** to get a new one. Log in again when the refresh token expires after 90 days or has been used 90 times.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login)"
+            "description": "Create new access, id, and refresh tokens with your valid username and password.\n\nThe access token lasts 24 hours. When it runs out, use the refresh token with **Refresh Token** to get a new one. Log in again when the refresh token expires after 90 days or has been used 90 times.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login)"
           },
           "response": [
             {
@@ -187,7 +187,7 @@
                 "token-refresh"
               ]
             },
-            "description": "Provides new access and id tokens with your valid username and refresh token.\n\nRefresh returns a new access token but no new refresh token, so keep using the one from **Login**.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh)"
+            "description": "Provides new access and id tokens with your valid username and refresh token.\n\nRefresh returns a new access token but no new refresh token, so keep using the one from **Login**.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh)"
           },
           "response": [
             {
