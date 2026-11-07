@@ -15,7 +15,7 @@ The public workspace is at [postman.com/wikimedia-enterprise](https://www.postma
     - `wmePassword`: your Wikimedia Enterprise password
 
     In **Allowed domains**, enter `https://auth.enterprise.wikimedia.com` for both.
-4. **Let the collection read the vault.** In the vault, click the settings icon at the top right and turn on **Allow Vault secrets in scripts**.
+4. **Let the collection read the vault.** In the vault, click **Settings** and turn on **Allow Vault secrets in scripts**.
 5. **Send your first request.** Open **Metadata > Projects Available** and click **Send**. When Postman asks "Grant Vault access for this execution?", keep **Only this collection** selected and click **Grant Access**.
 
 That's all the setup. The collection logs in before your requests and refreshes your access token when it needs to, so you don't need to run **Authentication > Login** or set up an environment.
