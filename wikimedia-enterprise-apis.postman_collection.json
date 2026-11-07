@@ -77,7 +77,52 @@
             },
             "description": "Create new access, id, and refresh tokens with your valid username and password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Tokens (placeholders)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{vault:wmePassword}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{auth_server}}/v1/login",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "login"
+                  ]
+                },
+                "description": "From the API reference, with placeholder tokens. Not captured."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id_token\": \"ID_TOKEN\",\n  \"access_token\": \"ACCESS_TOKEN\",\n  \"refresh_token\": \"REFRESH_TOKEN\",\n  \"expires_in\": 86400\n}"
+            }
+          ]
         },
         {
           "name": "Refresh Token",
@@ -145,7 +190,52 @@
             },
             "description": "Provides new access and id tokens with your valid username and refresh token.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-refresh)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "New access token (placeholders)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "refresh_token",
+                      "value": "{{refresh_token}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{auth_server}}/v1/token-refresh",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "token-refresh"
+                  ]
+                },
+                "description": "From the API reference, with placeholder tokens. Not captured."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id_token\": \"ID_TOKEN\",\n  \"access_token\": \"ACCESS_TOKEN\",\n  \"expires_in\": 86400\n}"
+            }
+          ]
         },
         {
           "name": "Revoke Token",
@@ -177,7 +267,42 @@
             },
             "description": "Revokes the associated access tokens with your valid refresh token.\n\nAfterwards the collection clears its stored tokens, so the next request logs in again.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-revoke](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-revoke)"
           },
-          "response": [],
+          "response": [
+            {
+              "name": "Token revoked",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{auth_server}}/v1/token-revoke",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "token-revoke"
+                  ]
+                },
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "refresh_token",
+                      "value": "{{refresh_token}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "description": "From the API reference, not captured."
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -236,7 +361,52 @@
             },
             "description": "Changes user password with your valid access token, current password, and a new proposed password.\n\n**Note:** This endpoint currently accepts the access token in the request body (`access_token` field) rather than via the `Authorization: Bearer` header. A future API version will align it with the rest of the platform's bearer-auth convention.\n\nAfter changing your password, update the `wmePassword` secret in your Postman Vault.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/change-password](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/change-password)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Password changed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{auth_server}}/v1/change-password",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "change-password"
+                  ]
+                },
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "access_token",
+                      "value": "{{access_token}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "previous_password",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "proposed_password",
+                      "value": "",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "description": "From the API reference, not captured."
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
         },
         {
           "name": "Forgot Password",
@@ -265,7 +435,42 @@
             },
             "description": "Sends a confirmation code via email. That code is then required to change user's password using /v1/forgot-password-confirm.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Confirmation code sent",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{auth_server}}/v1/forgot-password",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "forgot-password"
+                  ]
+                },
+                "description": "From the API reference, not captured."
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
         },
         {
           "name": "Forgot Password Confirmation",
@@ -304,7 +509,52 @@
             },
             "description": "Changes user password with your valid username, confirmation_code sent to your email from previously hitting /v1/forgot-password endpoint, and new password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password-confirm](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password-confirm)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Password reset",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "confirmation_code",
+                      "value": "",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{auth_server}}/v1/forgot-password-confirm",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "forgot-password-confirm"
+                  ]
+                },
+                "description": "From the API reference, not captured."
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
         },
         {
           "name": "New Password Required",
@@ -346,7 +596,57 @@
             },
             "description": "Responds `NEW_PASSWORD_REQUIRED` challenge by receiving username and session token and setting new password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/new-password-required](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/new-password-required)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Tokens (placeholders)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{auth_server}}/v1/new-password-required",
+                  "host": [
+                    "{{auth_server}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "new-password-required"
+                  ]
+                },
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "{{vault:wmeUsername}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "session",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "new_password",
+                      "value": "",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "description": "From the API reference, with placeholder tokens. Not captured."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id_token\": \"ID_TOKEN\",\n  \"access_token\": \"ACCESS_TOKEN\",\n  \"refresh_token\": \"REFRESH_TOKEN\",\n  \"expires_in\": 86400\n}"
+            }
+          ]
         }
       ],
       "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/authentication/](https://enterprise.wikimedia.com/docs/authentication/)\n\nUse your account credentials (_username in lowercase_) and tokens to manage your account programmatically. Access tokens expire after 24 hours, while refresh tokens expire after 90 days. You can only use the same refresh token up to 90 times to get a new access token. Use the [Login](https://enterprise.wikimedia.com/docs/authentication/) endpoint to receive your tokens, then use the [Refresh Token](https://enterprise.wikimedia.com/docs/authentication/) and [Revoke Token](https://enterprise.wikimedia.com/docs/authentication/) endpoints to manage them. Your account password can also be managed with the associated endpoints referenced in this document.\n\n_Note: if you are a Wikimedia community member, you can get exclusive access to Wikimedia Enterprise APIs that might not need authentication. Find out more_ [<i>here</i>](https://meta.wikimedia.org/wiki/Wikimedia_Enterprise#Access)_._"
@@ -384,7 +684,37 @@
             },
             "description": "Lists available project codes (types). Includes project code (type) identifier, name and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes](https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "All project codes",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/codes",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "codes"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": \"wiki\",\n    \"name\": \"Wikipedia\",\n    \"description\": \"A content encyclopedia written collaboratively in more than 340 language editions at a rate of over 2 edits every second, performed by volunteers from all over the world.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikipedia-api/\"\n  },\n  {\n    \"identifier\": \"wikidata\",\n    \"name\": \"Wikidata\",\n    \"description\": \"A free and open knowledge base that can be read and edited by both humans and machines.\",\n    \"url\": \"https://enterprise.wikimedia.com/blog/wikidata-api-endpoints-wikimedia-enterprise/\"\n  },\n  {\n    \"identifier\": \"wikibooks\",\n    \"name\": \"Wikibooks\",\n    \"description\": \"Free e-book resources that span textbooks, instructional guides, manuals, annotated texts, and other educational materials, available in over 75 languages.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikibooks-api/\"\n  },\n  {\n    \"identifier\": \"wikinews\",\n    \"name\": \"Wikinews\",\n    \"description\": \"A collaboratively written news portal with stories that chronicle events when they happen, are fact-checked, and peer reviewed.\",\n    \"url\": \"https://www.wikinews.org/\"\n  },\n  {\n    \"identifier\": \"wikiquote\",\n    \"name\": \"Wikiquote\",\n    \"description\": \"Quotations from notable people and creative works in over 75 languages, backed up by citations and sources.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikiquote-api/\"\n  },\n  {\n    \"identifier\": \"wikisource\",\n    \"name\": \"Wikisource\",\n    \"description\": \"A library of freely-licensed source texts and historical documents including poetry, novels, letters, speeches, constitutional and historical documents of many countries, laws, and a range of other documents.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikisource-api/\"\n  },\n  {\n    \"identifier\": \"wikivoyage\",\n    \"name\": \"Wikivoyage\",\n    \"description\": \"A community-curated worldwide travel guide built from contributions by locals and experienced travelers.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikivoyage-api/\"\n  },\n  {\n    \"identifier\": \"wiktionary\",\n    \"name\": \"Wiktionary\",\n    \"description\": \"A free multilingual dictionary of over 170 languages. Includes etymologies, pronunciations, sample quotations, translations, spelling variants, a thesaurus, rhyming guides, phrase books, and non-standard spellings.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wiktionary-api/\"\n  },\n  {\n    \"identifier\": \"wikiversity\",\n    \"name\": \"Wikiversity\",\n    \"description\": \"Free learning resources, learning projects, and research for all levels, types and styles of education from pre-school to university.\",\n    \"url\": \"https://enterprise.wikimedia.com/project-data/wikiversity-api/\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Project Code Info",
@@ -406,7 +736,7 @@
           },
           "response": [
             {
-              "name": "Project Code Info",
+              "name": "Wikipedia (wiki)",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -420,18 +750,20 @@
                     "codes",
                     "wiki"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "application/json"
                 }
               ],
-              "body": ""
+              "cookie": [],
+              "body": "{\n  \"identifier\": \"wiki\",\n  \"name\": \"Wikipedia\",\n  \"description\": \"A content encyclopedia written collaboratively in more than 340 language editions at a rate of over 2 edits every second, performed by volunteers from all over the world.\",\n  \"url\": \"https://enterprise.wikimedia.com/project-data/wikipedia-api/\"\n}"
             }
           ]
         },
@@ -452,7 +784,37 @@
             },
             "description": "Lists of available languages. Includes language identifier, name, direction and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages](https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "All languages (first 3)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/languages",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "languages"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 376 entries."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": \"gag\",\n    \"name\": \"Gagauz\",\n    \"alternate_name\": \"Gagauz\",\n    \"direction\": \"ltr\"\n  },\n  {\n    \"identifier\": \"kbp\",\n    \"name\": \"Kabiye\",\n    \"alternate_name\": \"Kabɩyɛ\",\n    \"direction\": \"ltr\"\n  },\n  {\n    \"identifier\": \"isv\",\n    \"name\": \"Interslavic\",\n    \"alternate_name\": \"medžuslovjansky\",\n    \"direction\": \"ltr\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Language Info",
@@ -484,41 +846,34 @@
           },
           "response": [
             {
-              "name": "Language Info",
+              "name": "English (en)",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"abstract\",\"article_body', \"redirects\",\"categories\",\"date_created\",\"date_modified\",\"date_previously_modified\",\"version\",\"previous_version\",\"url\",\"watchers_count\",\"namespace\",\"in_language\",\"main_entity\",\"additional_entities\",\"is_part_of\",\"license\",\"event\",\"image\"]\r\n//}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
-                  "raw": "{{api_server}}/v2/languages/zh",
+                  "raw": "{{api_server}}/v2/languages/en",
                   "host": [
                     "{{api_server}}"
                   ],
                   "path": [
                     "v2",
                     "languages",
-                    "zh"
+                    "en"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "application/json"
                 }
               ],
-              "body": ""
+              "cookie": [],
+              "body": "{\n  \"identifier\": \"en\",\n  \"name\": \"English\",\n  \"alternate_name\": \"English\",\n  \"direction\": \"ltr\"\n}"
             }
           ]
         },
@@ -552,7 +907,37 @@
             },
             "description": "List of available projects. Includes project identifier, name, language and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects](https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "All projects (first 3)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/projects",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "projects"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 950 entries."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"name\": \"Vikipediya\",\n    \"identifier\": \"gagwiki\",\n    \"url\": \"https://gag.wikipedia.org\",\n    \"code\": \"wiki\",\n    \"in_language\": {\n      \"identifier\": \"gag\"\n    }\n  },\n  {\n    \"name\": \"Wikipediya\",\n    \"identifier\": \"kbpwiki\",\n    \"url\": \"https://kbp.wikipedia.org\",\n    \"code\": \"wiki\",\n    \"in_language\": {\n      \"identifier\": \"kbp\"\n    }\n  },\n  {\n    \"name\": \"Vikipedija\",\n    \"identifier\": \"isvwiki\",\n    \"url\": \"https://isv.wikipedia.org\",\n    \"code\": \"wiki\",\n    \"in_language\": {\n      \"identifier\": \"isv\"\n    }\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Project Info",
@@ -574,19 +959,10 @@
           },
           "response": [
             {
-              "name": "Project Info",
+              "name": "English Wikipedia (enwiki)",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"code\",\"url\",\"in_language\"]\r\n//}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/projects/enwiki",
                   "host": [
@@ -597,18 +973,20 @@
                     "projects",
                     "enwiki"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "application/json"
                 }
               ],
-              "body": ""
+              "cookie": [],
+              "body": "{\n  \"name\": \"Wikipedia\",\n  \"identifier\": \"enwiki\",\n  \"url\": \"https://en.wikipedia.org\",\n  \"code\": \"wiki\",\n  \"in_language\": {\n    \"identifier\": \"en\"\n  }\n}"
             }
           ]
         },
@@ -629,7 +1007,37 @@
             },
             "description": "List of available namespaces. Includes name, identifier and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces](https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "All namespaces",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/namespaces",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "namespaces"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"name\": \"File\",\n    \"identifier\": 6,\n    \"description\": \"The Media namespace, identified as the File namespace, hosts all of a project's multimedia content, including images, videos, audio, and other media files. All files in this namespace begin with the prefix 'File:'.\"\n  },\n  {\n    \"name\": \"Template\",\n    \"identifier\": 10,\n    \"description\": \"The Template namespace stores Wikitext templates that are included on multiple pages, mainly through transclusion. While primarily in this namespace, some templates may reside in other namespaces, such as the User namespace.\"\n  },\n  {\n    \"name\": \"Article\",\n    \"identifier\": 0,\n    \"description\": \"The Article namespace, also known as the main or mainspace, is where a project's primary content resides, whether articles, entries, or main documents depending on the Wikimedia project.\"\n  },\n  {\n    \"name\": \"Category\",\n    \"identifier\": 14,\n    \"description\": \"The Category namespace organizes pages on related topics, using a MediaWiki feature to automatically list any page with [[Category:XYZ]] in its markup. This structure aids in navigation and topic discovery within a project.\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Namespace Info",
@@ -651,19 +1059,10 @@
           },
           "response": [
             {
-              "name": "Namespace Info",
+              "name": "Article namespace (0)",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "//{\r\n//    \"fields\": [\"name\",\"identifier\",\"description\"]\r\n//}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "{{api_server}}/v2/namespaces/0",
                   "host": [
@@ -674,18 +1073,20 @@
                     "namespaces",
                     "0"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "application/json"
                 }
               ],
-              "body": ""
+              "cookie": [],
+              "body": "{\n  \"name\": \"Article\",\n  \"identifier\": 0,\n  \"description\": \"The Article namespace, also known as the main or mainspace, is where a project's primary content resides, whether articles, entries, or main documents depending on the Wikimedia project.\"\n}"
             }
           ]
         }
@@ -712,7 +1113,37 @@
             },
             "description": "Returns a list of available project snapshots by namespace. Includes identifiers, file sizes and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "All snapshots (first 3)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 3,266 entries. Chunk lists trimmed."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": \"aawiki_namespace_0\",\n    \"version\": \"f9935c8d6c2b9371b2ebc42acd8fdba2\",\n    \"date_modified\": \"2026-11-06T01:06:40.384449917Z\",\n    \"is_part_of\": {\n      \"identifier\": \"aawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"aa\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 0.001,\n      \"unit_text\": \"MB\"\n    },\n    \"chunks\": [\n      \"aawiki_namespace_0_chunk_0\"\n    ],\n    \"record_count\": 1\n  },\n  {\n    \"identifier\": \"aawiki_namespace_10\",\n    \"version\": \"b50302fb61822bb5fdb926aa1566f934\",\n    \"date_modified\": \"2026-11-06T01:06:41.000528102Z\",\n    \"is_part_of\": {\n      \"identifier\": \"aawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"aa\"\n    },\n    \"namespace\": {\n      \"identifier\": 10\n    },\n    \"size\": {\n      \"value\": 0.029,\n      \"unit_text\": \"MB\"\n    },\n    \"chunks\": [\n      \"aawiki_namespace_10_chunk_0\"\n    ],\n    \"record_count\": 24\n  },\n  {\n    \"identifier\": \"aawiki_namespace_14\",\n    \"version\": \"ef53de53a9d892f7d759e3c1b0cd3920\",\n    \"date_modified\": \"2026-11-06T01:06:41.483960416Z\",\n    \"is_part_of\": {\n      \"identifier\": \"aawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"aa\"\n    },\n    \"namespace\": {\n      \"identifier\": 14\n    },\n    \"size\": {\n      \"value\": 0.031,\n      \"unit_text\": \"MB\"\n    },\n    \"chunks\": [\n      \"aawiki_namespace_14_chunk_0\"\n    ],\n    \"record_count\": 29\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Snapshot Info",
@@ -734,7 +1165,7 @@
           },
           "response": [
             {
-              "name": "Snapshot Info",
+              "name": "English Wikipedia",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
@@ -748,12 +1179,20 @@
                     "snapshots",
                     "enwiki_namespace_0"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07. Chunk list trimmed to 3 entries."
               },
-              "_postman_previewlanguage": null,
-              "header": null,
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
               "cookie": [],
-              "body": null
+              "body": "{\n  \"identifier\": \"enwiki_namespace_0\",\n  \"version\": \"104413b20d78819543f60d37d51eed9f\",\n  \"date_modified\": \"2026-11-07T01:21:37.421686968Z\",\n  \"is_part_of\": {\n    \"identifier\": \"enwiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 0\n  },\n  \"size\": {\n    \"value\": 151136.039,\n    \"unit_text\": \"MB\"\n  },\n  \"chunks\": [\n    \"enwiki_namespace_0_chunk_0\",\n    \"enwiki_namespace_0_chunk_1\",\n    \"enwiki_namespace_0_chunk_2\"\n  ],\n  \"record_count\": 7343310\n}"
             }
           ]
         },
@@ -784,7 +1223,43 @@
             },
             "description": "Downloadable bundle of all current revisions in a specified project and namespace. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{identifier}/download)"
           },
-          "response": [],
+          "response": [
+            {
+              "name": "Redirect to the file",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/download",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "enwiki_namespace_0",
+                    "download"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+              },
+              "status": "Temporary Redirect",
+              "code": 307,
+              "_postman_previewlanguage": "html",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html; charset=utf-8"
+                },
+                {
+                  "key": "Location",
+                  "value": "https://wme-eks-data-pr.s3.amazonaws.com/snapshots/enwiki_namespace_0.tar.gz?<presigned query removed>"
+                }
+              ],
+              "cookie": [],
+              "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/snapshots/enwiki_namespace_0.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+            }
+          ],
           "protocolProfileBehavior": {
             "followRedirects": false
           }
@@ -810,16 +1285,10 @@
           },
           "response": [
             {
-              "name": "Snapshot Download Headers",
+              "name": "English Wikipedia",
               "originalRequest": {
                 "method": "HEAD",
-                "header": [
-                  {
-                    "key": "Range",
-                    "value": "",
-                    "type": "text"
-                  }
-                ],
+                "header": [],
                 "url": {
                   "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/download",
                   "host": [
@@ -831,17 +1300,35 @@
                     "enwiki_namespace_0",
                     "download"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "binary/octet-stream"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "151136039381"
+                },
+                {
+                  "key": "Accept-Ranges",
+                  "value": "bytes"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"153602982739a1ca9da2931611f4fe5c-1512\""
+                },
+                {
+                  "key": "Last-Modified",
+                  "value": "Sat, 07 Nov 2026 00:01:57 UTC"
                 }
               ],
+              "cookie": [],
               "body": ""
             }
           ]
@@ -865,7 +1352,39 @@
             },
             "description": "Returns a list of available chunks for a specific snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}/chunks](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}/chunks)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "English Wikipedia chunks (first 3)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "enwiki_namespace_0",
+                    "chunks"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 443 entries."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": \"enwiki_namespace_0_chunk_0\",\n    \"version\": \"ad1cb8177fd41c1025f8b17d095c275d\",\n    \"date_modified\": \"2026-11-06T00:01:51.348944458Z\",\n    \"is_part_of\": {\n      \"identifier\": \"enwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 257.056,\n      \"unit_text\": \"MB\"\n    }\n  },\n  {\n    \"identifier\": \"enwiki_namespace_0_chunk_1\",\n    \"version\": \"1f71acea0f8003400dff2b1ad0431c0f\",\n    \"date_modified\": \"2026-11-06T00:02:03.952777893Z\",\n    \"is_part_of\": {\n      \"identifier\": \"enwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 234.832,\n      \"unit_text\": \"MB\"\n    }\n  },\n  {\n    \"identifier\": \"enwiki_namespace_0_chunk_10\",\n    \"version\": \"086d6e7dd6013ed2673ddc12b0b23edd\",\n    \"date_modified\": \"2026-11-06T00:03:58.843352325Z\",\n    \"is_part_of\": {\n      \"identifier\": \"enwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 353.867,\n      \"unit_text\": \"MB\"\n    }\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Snapshot Chunk Info",
@@ -889,21 +1408,12 @@
           },
           "response": [
             {
-              "name": "Snapshot Chunk Info",
+              "name": "First chunk",
               "originalRequest": {
                 "method": "POST",
                 "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
-                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks/1",
+                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks/enwiki_namespace_0_chunk_0",
                   "host": [
                     "{{api_server}}"
                   ],
@@ -912,20 +1422,22 @@
                     "snapshots",
                     "enwiki_namespace_0",
                     "chunks",
-                    "1"
+                    "enwiki_namespace_0_chunk_0"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "application/json"
                 }
               ],
-              "body": ""
+              "cookie": [],
+              "body": "{\n  \"identifier\": \"enwiki_namespace_0_chunk_0\",\n  \"version\": \"7c848aba12654d57a27e7e7ad9861de6\",\n  \"date_modified\": \"2026-11-07T00:02:01.941278186Z\",\n  \"is_part_of\": {\n    \"identifier\": \"enwiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 0\n  },\n  \"size\": {\n    \"value\": 256.458,\n    \"unit_text\": \"MB\"\n  }\n}"
             }
           ]
         },
@@ -958,7 +1470,45 @@
             },
             "description": "Downloadable bundle of a specific chunk from a snapshot. Returns a zipped tar file.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download)"
           },
-          "response": [],
+          "response": [
+            {
+              "name": "Redirect to the file",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks/enwiki_namespace_0_chunk_0/download",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "snapshots",
+                    "enwiki_namespace_0",
+                    "chunks",
+                    "enwiki_namespace_0_chunk_0",
+                    "download"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+              },
+              "status": "Temporary Redirect",
+              "code": 307,
+              "_postman_previewlanguage": "html",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html; charset=utf-8"
+                },
+                {
+                  "key": "Location",
+                  "value": "https://wme-eks-data-pr.s3.amazonaws.com/chunks/enwiki_namespace_0/chunk_0.tar.gz?<presigned query removed>"
+                }
+              ],
+              "cookie": [],
+              "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/chunks/enwiki_namespace_0/chunk_0.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+            }
+          ],
           "protocolProfileBehavior": {
             "followRedirects": false
           }
@@ -986,19 +1536,12 @@
           },
           "response": [
             {
-              "name": "Snapshot Chunk Download Headers",
+              "name": "First chunk",
               "originalRequest": {
                 "method": "HEAD",
-                "header": [
-                  {
-                    "key": "Range",
-                    "value": "",
-                    "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                    "type": "text"
-                  }
-                ],
+                "header": [],
                 "url": {
-                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks/0/download",
+                  "raw": "{{api_server}}/v2/snapshots/enwiki_namespace_0/chunks/enwiki_namespace_0_chunk_0/download",
                   "host": [
                     "{{api_server}}"
                   ],
@@ -1007,20 +1550,38 @@
                     "snapshots",
                     "enwiki_namespace_0",
                     "chunks",
-                    "0",
+                    "enwiki_namespace_0_chunk_0",
                     "download"
                   ]
-                }
+                },
+                "description": "Captured from production on 2026-11-07."
               },
-              "_postman_previewlanguage": "",
-              "header": [],
-              "cookie": [
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
                 {
-                  "expires": "Invalid Date",
-                  "domain": "",
-                  "path": ""
+                  "key": "Content-Type",
+                  "value": "binary/octet-stream"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "256458035"
+                },
+                {
+                  "key": "Accept-Ranges",
+                  "value": "bytes"
+                },
+                {
+                  "key": "ETag",
+                  "value": "\"7c848aba12654d57a27e7e7ad9861de6\""
+                },
+                {
+                  "key": "Last-Modified",
+                  "value": "Sat, 07 Nov 2026 00:02:00 UTC"
                 }
               ],
+              "cookie": [],
               "body": ""
             }
           ]
@@ -1046,7 +1607,38 @@
                 },
                 "description": "Returns a list of available project Structured Contents snapshots.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "All Structured Contents snapshots (first 3)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/structured-contents",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "structured-contents"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 11 entries."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"identifier\": \"arwiki_namespace_0\",\n    \"version\": \"17e6e13544e4010095a987f4ae9a8ae2\",\n    \"date_modified\": \"2026-11-06T04:16:10.624568099Z\",\n    \"is_part_of\": {\n      \"identifier\": \"arwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"ar\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 4362.968,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 1343283\n  },\n  {\n    \"identifier\": \"cywiki_namespace_0\",\n    \"version\": \"06cb6cb896b95438e7cb4fdb1ab6ec96\",\n    \"date_modified\": \"2026-11-06T04:01:54.703233628Z\",\n    \"is_part_of\": {\n      \"identifier\": \"cywiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"cy\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 427.597,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 287618\n  },\n  {\n    \"identifier\": \"dewiki_namespace_0\",\n    \"version\": \"70c19c1a23e6fa344be1c3f666e6903f\",\n    \"date_modified\": \"2026-11-06T02:45:48.041355812Z\",\n    \"is_part_of\": {\n      \"identifier\": \"dewiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"de\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 11555.784,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 3265670\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Structured Contents Snapshot Info (Beta)",
@@ -1069,19 +1661,10 @@
               },
               "response": [
                 {
-                  "name": "Structured Contents Snapshot Info (Beta)",
+                  "name": "English Wikipedia",
                   "originalRequest": {
                     "method": "POST",
                     "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "// {\r\n//   \"fields\": [\"identifier\", \"version\", \"date_modified\", \"in_language\", \"is_part_of\",\"namespace\", \"size\", \"chunks\"]\r\n// }",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
                     "url": {
                       "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0",
                       "host": [
@@ -1093,18 +1676,20 @@
                         "structured-contents",
                         "enwiki_namespace_0"
                       ]
-                    }
+                    },
+                    "description": "Captured from production on 2026-11-07."
                   },
-                  "_postman_previewlanguage": "",
-                  "header": [],
-                  "cookie": [
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "expires": "Invalid Date",
-                      "domain": "",
-                      "path": ""
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "body": ""
+                  "cookie": [],
+                  "body": "{\n  \"identifier\": \"enwiki_namespace_0\",\n  \"version\": \"885d461678d09f81de41cfe975fa0900\",\n  \"date_modified\": \"2026-11-07T01:41:53.393911166Z\",\n  \"is_part_of\": {\n    \"identifier\": \"enwiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 0\n  },\n  \"size\": {\n    \"value\": 37672.158,\n    \"unit_text\": \"MB\"\n  },\n  \"record_count\": 7659017\n}"
                 }
               ]
             },
@@ -1136,7 +1721,44 @@
                 },
                 "description": "Downloadable bundle of Structured Contents of all current revisions in a specified project and namespace. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download)"
               },
-              "response": [],
+              "response": [
+                {
+                  "name": "Redirect to the file",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "structured-contents",
+                        "enwiki_namespace_0",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+                  },
+                  "status": "Temporary Redirect",
+                  "code": 307,
+                  "_postman_previewlanguage": "html",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "text/html; charset=utf-8"
+                    },
+                    {
+                      "key": "Location",
+                      "value": "https://wme-eks-data-pr.s3.amazonaws.com/structured-snapshots/enwiki_namespace_0.tar.gz?<presigned query removed>"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/structured-snapshots/enwiki_namespace_0.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+                }
+              ],
               "protocolProfileBehavior": {
                 "followRedirects": false
               }
@@ -1163,17 +1785,10 @@
               },
               "response": [
                 {
-                  "name": "Structured Contents Snapshot Download Headers (Beta)",
+                  "name": "English Wikipedia",
                   "originalRequest": {
                     "method": "HEAD",
-                    "header": [
-                      {
-                        "key": "Range",
-                        "value": "",
-                        "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                        "type": "text"
-                      }
-                    ],
+                    "header": [],
                     "url": {
                       "raw": "{{api_server}}/v2/snapshots/structured-contents/enwiki_namespace_0/download",
                       "host": [
@@ -1186,60 +1801,35 @@
                         "enwiki_namespace_0",
                         "download"
                       ]
-                    }
+                    },
+                    "description": "Captured from production on 2026-11-07."
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": "",
+                  "_postman_previewlanguage": "text",
                   "header": [
                     {
-                      "key": "date",
-                      "value": "Mon, 23 Mar 2026 12:24:46 GMT"
-                    },
-                    {
-                      "key": "content-type",
+                      "key": "Content-Type",
                       "value": "binary/octet-stream"
                     },
                     {
-                      "key": "content-length",
-                      "value": "33872446660"
+                      "key": "Content-Length",
+                      "value": "37672158237"
                     },
                     {
-                      "key": "accept-ranges",
+                      "key": "Accept-Ranges",
                       "value": "bytes"
                     },
                     {
-                      "key": "access-control-expose-headers",
-                      "value": "Accept-Ranges, Last-Modified, Content-Length, ETag, Cache-Control, Content-Disposition, Content-Encoding, Content-Type, Expires"
+                      "key": "ETag",
+                      "value": "\"bfd2fc00a979b6cc0b84c5a2b4e354e7-377\""
                     },
                     {
-                      "key": "etag",
-                      "value": "\"8e8ba23234aa737698666942e7c6f14f-339\""
-                    },
-                    {
-                      "key": "last-modified",
-                      "value": "Mon, 23 Mar 2026 00:03:08 UTC"
-                    },
-                    {
-                      "key": "x-request-id",
-                      "value": "a5afad32-1dbb-44cc-8d77-fd683e2317fe"
-                    },
-                    {
-                      "key": "x-envoy-upstream-service-time",
-                      "value": "18"
-                    },
-                    {
-                      "key": "server",
-                      "value": "istio-envoy"
+                      "key": "Last-Modified",
+                      "value": "Sat, 07 Nov 2026 00:02:54 UTC"
                     }
                   ],
-                  "cookie": [
-                    {
-                      "expires": "Invalid Date",
-                      "domain": "",
-                      "path": ""
-                    }
-                  ],
+                  "cookie": [],
                   "body": ""
                 }
               ]
@@ -1269,7 +1859,38 @@
                 },
                 "description": "Returns the list of available Wikidata snapshots, currently `items` and `properties`. Includes identifiers, file sizes, record counts, and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Items and properties",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. Chunk lists trimmed."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"identifier\": \"wikidata_items\",\n    \"version\": \"b1699e008ddcb252aeb1dd225f5aa02a\",\n    \"date_modified\": \"2026-11-06T04:55:35.632657249Z\",\n    \"is_part_of\": {\n      \"identifier\": \"wikidatawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 106842.394,\n      \"unit_text\": \"MB\"\n    },\n    \"chunks\": [\n      \"wikidata_items_chunk_0\",\n      \"wikidata_items_chunk_1\",\n      \"wikidata_items_chunk_2\"\n    ],\n    \"record_count\": 76640188\n  },\n  {\n    \"identifier\": \"wikidata_properties\",\n    \"version\": \"9f09797f80c2fbe327d8d1a86b8f07f8\",\n    \"date_modified\": \"2026-11-06T04:55:40.068801758Z\",\n    \"is_part_of\": {\n      \"identifier\": \"wikidatawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 120\n    },\n    \"size\": {\n      \"value\": 38.953,\n      \"unit_text\": \"MB\"\n    },\n    \"chunks\": [\n      \"wikidata_properties_chunk_0\"\n    ],\n    \"record_count\": 14679\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Wikidata Snapshot Info (Beta)",
@@ -1290,7 +1911,39 @@
                 },
                 "description": "Information on the Wikidata `items` or `properties` snapshot. Includes identifier, file size, record count, chunk identifiers, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Properties",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"identifier\": \"wikidata_properties\",\n  \"version\": \"9f09797f80c2fbe327d8d1a86b8f07f8\",\n  \"date_modified\": \"2026-11-06T04:55:40.068801758Z\",\n  \"is_part_of\": {\n    \"identifier\": \"wikidatawiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 120\n  },\n  \"size\": {\n    \"value\": 38.953,\n    \"unit_text\": \"MB\"\n  },\n  \"chunks\": [\n    \"wikidata_properties_chunk_0\"\n  ],\n  \"record_count\": 14679\n}"
+                }
+              ]
             },
             {
               "name": "Wikidata Snapshot Download (Beta)",
@@ -1320,7 +1973,44 @@
                 },
                 "description": "Downloadable bundle of every current item in the Wikidata Main Graph (`items`) or every current property (`properties`), as one NDJSON file in a compressed tarball. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/download)"
               },
-              "response": [],
+              "response": [
+                {
+                  "name": "Redirect to the file",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+                  },
+                  "status": "Temporary Redirect",
+                  "code": 307,
+                  "_postman_previewlanguage": "html",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "text/html; charset=utf-8"
+                    },
+                    {
+                      "key": "Location",
+                      "value": "https://wme-eks-data-pr.s3.amazonaws.com/snapshots/wikidata/properties.tar.gz?<presigned query removed>"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/snapshots/wikidata/properties.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+                }
+              ],
               "protocolProfileBehavior": {
                 "followRedirects": false
               }
@@ -1345,7 +2035,56 @@
                 },
                 "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/download)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Properties",
+                  "originalRequest": {
+                    "method": "HEAD",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "binary/octet-stream"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "38953475"
+                    },
+                    {
+                      "key": "Accept-Ranges",
+                      "value": "bytes"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "\"9f09797f80c2fbe327d8d1a86b8f07f8\""
+                    },
+                    {
+                      "key": "Last-Modified",
+                      "value": "Fri, 06 Nov 2026 04:55:40 UTC"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": ""
+                }
+              ]
             },
             {
               "name": "Wikidata Snapshot Chunks Available (Beta)",
@@ -1367,7 +2106,40 @@
                 },
                 "description": "Returns a list of available chunks for the Wikidata `items` or `properties` snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Property chunks",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/chunks",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "chunks"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"identifier\": \"wikidata_properties_chunk_0\",\n    \"version\": \"d736fa6bff0275cc52831202f09bbc05\",\n    \"date_modified\": \"2026-11-06T04:55:40.02186713Z\",\n    \"is_part_of\": {\n      \"identifier\": \"wikidatawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 120\n    },\n    \"size\": {\n      \"value\": 38.953,\n      \"unit_text\": \"MB\"\n    }\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Wikidata Snapshot Chunk Info (Beta)",
@@ -1390,7 +2162,41 @@
                 },
                 "description": "Information on a specific chunk of the Wikidata `items` or `properties` snapshot. Includes chunk identifier, size, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "First chunk",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/chunks/wikidata_properties_chunk_0",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "chunks",
+                        "wikidata_properties_chunk_0"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"identifier\": \"wikidata_properties_chunk_0\",\n  \"version\": \"d736fa6bff0275cc52831202f09bbc05\",\n  \"date_modified\": \"2026-11-06T04:55:40.02186713Z\",\n  \"is_part_of\": {\n    \"identifier\": \"wikidatawiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 120\n  },\n  \"size\": {\n    \"value\": 38.953,\n    \"unit_text\": \"MB\"\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Wikidata Snapshot Chunk Download (Beta)",
@@ -1422,7 +2228,46 @@
                 },
                 "description": "Downloadable bundle of a specific chunk from the Wikidata `items` or `properties` snapshot. Returns a zipped tar file.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
               },
-              "response": [],
+              "response": [
+                {
+                  "name": "Redirect to the file",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/chunks/wikidata_properties_chunk_0/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "chunks",
+                        "wikidata_properties_chunk_0",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+                  },
+                  "status": "Temporary Redirect",
+                  "code": 307,
+                  "_postman_previewlanguage": "html",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "text/html; charset=utf-8"
+                    },
+                    {
+                      "key": "Location",
+                      "value": "https://wme-eks-data-pr.s3.amazonaws.com/chunks/wikidata_properties/chunk_0.tar.gz?<presigned query removed>"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/chunks/wikidata_properties/chunk_0.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+                }
+              ],
               "protocolProfileBehavior": {
                 "followRedirects": false
               }
@@ -1449,7 +2294,58 @@
                 },
                 "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "First chunk",
+                  "originalRequest": {
+                    "method": "HEAD",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/snapshots/wikidata/properties/chunks/wikidata_properties_chunk_0/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "snapshots",
+                        "wikidata",
+                        "properties",
+                        "chunks",
+                        "wikidata_properties_chunk_0",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "binary/octet-stream"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "38953471"
+                    },
+                    {
+                      "key": "Accept-Ranges",
+                      "value": "bytes"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "\"d736fa6bff0275cc52831202f09bbc05\""
+                    },
+                    {
+                      "key": "Last-Modified",
+                      "value": "Fri, 06 Nov 2026 04:55:40 UTC"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": ""
+                }
+              ]
             }
           ]
         }
@@ -1510,7 +2406,140 @@
             },
             "description": "Most current revision of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name}](https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name})"
           },
-          "response": []
+          "response": [
+            {
+              "name": "NASA in English Wikipedia, select fields",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ],\n  \"fields\": [\n    \"name\",\n    \"identifier\",\n    \"abstract\",\n    \"url\",\n    \"date_modified\",\n    \"version.identifier\",\n    \"is_part_of.identifier\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_server}}/v2/articles/NASA",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "articles",
+                    "NASA"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": 18426568,\n    \"abstract\": \"The National Aeronautics and Space Administration is an independent agency of the U.S. federal government responsible for the United States' civil space program, as well as research in aeronautics and space. Headquartered in Washington, D.C., NASA operates ten field centers across the US and is organized into three mission directorates: Human Spaceflight, Research and Technology, and Science. Established in 1958 amid the Space Race, NASA succeeded the National Advisory Committee for Aeronautics (NACA) to give the US space program a distinct civilian orientation focused on peaceful applications. Since then, it has led most American spaceflight programs, including Project Mercury, Project Gemini, the Apollo program, Skylab, the Space Shuttle, the International Space Station (ISS), and the ongoing multinational Artemis program. NASA maintains extensive ground and communications infrastructure, including the Deep Space Network and the Near Earth Network. Its science programs focus on Earth observation through the Earth Observing System, heliophysics research, Solar System exploration with robotic missions such as New Horizons and the Perseverance rover, and astrophysics investigations using space-based observatories including the James Webb Space Telescope and the Hubble Space Telescope. The Launch Services Program oversees operations for uncrewed launches. The agency supports the ISS through international partnerships and highly successful commercial initiatives, such as the Commercial Crew Program and Commercial Resupply Services. NASA also leads the development of the Orion spacecraft and the Space Launch System rocket for the Artemis program. NASA collaborates globally with organizations including the European Space Agency (ESA), the Japan Aerospace Exploration Agency (JAXA), the Canadian Space Agency (CSA), and Russia's Roscosmos, as well as domestically with US agencies such as the National Oceanic and Atmospheric Administration, the United States Geological Survey, and the United States Space Force. NASA's missions and media initiatives, including the NASA+ streaming service, contribute significantly to its public visibility and outreach. The agency has also influenced popular culture since the historic Apollo 11 Moon landing in 1969. For fiscal year 2026, NASA was authorized a budget of $24.4 billion and employs approximately 18,400 civil servants; since December 2025, its administrator has been Jared Isaacman.\",\n    \"url\": \"https://en.wikipedia.org/wiki/NASA\",\n    \"date_modified\": \"2026-11-05T17:10:30Z\",\n    \"version\": {\n      \"identifier\": 1383926477\n    },\n    \"is_part_of\": {\n      \"identifier\": \"enwiki\"\n    },\n    \"name\": \"NASA\"\n  }\n]"
+            },
+            {
+              "name": "Filter by language",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"in_language.identifier\",\n      \"value\": \"fr\"\n    }\n  ],\n  \"fields\": [\n    \"name\",\n    \"url\",\n    \"is_part_of.identifier\",\n    \"in_language.identifier\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_server}}/v2/articles/Marie_Curie",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "articles",
+                    "Marie_Curie"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"name\": \"Marie Curie\",\n    \"url\": \"https://fr.wikipedia.org/wiki/Marie_Curie\",\n    \"is_part_of\": {\n      \"identifier\": \"frwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"fr\"\n    }\n  },\n  {\n    \"name\": \"Marie Curie\",\n    \"url\": \"https://fr.wikiquote.org/wiki/Marie_Curie\",\n    \"is_part_of\": {\n      \"identifier\": \"frwikiquote\"\n    },\n    \"in_language\": {\n      \"identifier\": \"fr\"\n    }\n  }\n]"
+            },
+            {
+              "name": "Limit results",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fields\": [\n    \"name\",\n    \"url\",\n    \"is_part_of.identifier\"\n  ],\n  \"limit\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_server}}/v2/articles/NATO",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "articles",
+                    "NATO"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"is_part_of\": {\n      \"identifier\": \"enwiki\"\n    },\n    \"name\": \"NATO\",\n    \"url\": \"https://en.wikipedia.org/wiki/NATO\"\n  },\n  {\n    \"name\": \"NATO\",\n    \"url\": \"https://ceb.wikipedia.org/wiki/NATO\",\n    \"is_part_of\": {\n      \"identifier\": \"cebwiki\"\n    }\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Structured Contents Article Lookup (Beta)",
@@ -1563,7 +2592,52 @@
             },
             "description": "Structured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nReturns the Structured Contents of the current version of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name}](https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name})"
           },
-          "response": []
+          "response": [
+            {
+              "name": "NASA in English Wikipedia, select fields",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filters\": [\n    {\n      \"field\": \"is_part_of.identifier\",\n      \"value\": \"enwiki\"\n    }\n  ],\n  \"fields\": [\n    \"name\",\n    \"identifier\",\n    \"abstract\",\n    \"description\",\n    \"url\",\n    \"date_modified\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{api_server}}/v2/structured-contents/NASA",
+                  "host": [
+                    "{{api_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "structured-contents",
+                    "NASA"
+                  ]
+                },
+                "description": "Captured from production on 2026-11-07."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"identifier\": 18426568,\n    \"abstract\": \"The National Aeronautics and Space Administration is an independent agency of the U.S. federal government responsible for the United States' civil space program, as well as research in aeronautics and space. Headquartered in Washington, D.C., NASA operates ten field centers across the US and is organized into three mission directorates: Human Spaceflight, Research and Technology, and Science. Established in 1958 amid the Space Race, NASA succeeded the National Advisory Committee for Aeronautics (NACA) to give the US space program a distinct civilian orientation focused on peaceful applications. Since then, it has led most American spaceflight programs, including Project Mercury, Project Gemini, the Apollo program, Skylab, the Space Shuttle, the International Space Station (ISS), and the ongoing multinational Artemis program. NASA maintains extensive ground and communications infrastructure, including the Deep Space Network and the Near Earth Network. Its science programs focus on Earth observation through the Earth Observing System, heliophysics research, Solar System exploration with robotic missions such as New Horizons and the Perseverance rover, and astrophysics investigations using space-based observatories including the James Webb Space Telescope and the Hubble Space Telescope. The Launch Services Program oversees operations for uncrewed launches. The agency supports the ISS through international partnerships and highly successful commercial initiatives, such as the Commercial Crew Program and Commercial Resupply Services. NASA also leads the development of the Orion spacecraft and the Space Launch System rocket for the Artemis program. NASA collaborates globally with organizations including the European Space Agency (ESA), the Japan Aerospace Exploration Agency (JAXA), the Canadian Space Agency (CSA), and Russia's Roscosmos, as well as domestically with US agencies such as the National Oceanic and Atmospheric Administration, the United States Geological Survey, and the United States Space Force. NASA's missions and media initiatives, including the NASA+ streaming service, contribute significantly to its public visibility and outreach. The agency has also influenced popular culture since the historic Apollo 11 Moon landing in 1969. For fiscal year 2026, NASA was authorized a budget of $24.4 billion and employs approximately 18,400 civil servants; since December 2025, its administrator has been Jared Isaacman.\",\n    \"description\": \"American space and aeronautics agency\",\n    \"url\": \"https://en.wikipedia.org/wiki/NASA\",\n    \"date_modified\": \"2026-11-05T17:10:30Z\",\n    \"name\": \"NASA\"\n  }\n]"
+            }
+          ]
         },
         {
           "name": "Wikidata (Beta)",
@@ -1587,7 +2661,39 @@
                 },
                 "description": "Returns data and metadata about the last revision of a given Wikidata Item identifier (Q-number, e.g. Q42). Only gives access to the Main Wikidata graph.\n\nRequired: `{{wikidata_item_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/items/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/items/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Douglas Adams (Q42)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/wikidata/items/Q42",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "wikidata",
+                        "items",
+                        "Q42"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. Trimmed to two languages, one statement, and two sitelinks, with version details shortened."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"name\": \"Q42\",\n  \"identifier\": 138,\n  \"date_created\": \"2012-10-29T18:18:48Z\",\n  \"date_modified\": \"2026-10-31T16:46:04Z\",\n  \"date_previously_modified\": \"2026-10-31T07:36:28Z\",\n  \"version\": {\n    \"identifier\": 2563066692\n  },\n  \"previous_version\": {\n    \"identifier\": 2562905671,\n    \"namespace\": {\n      \"identifier\": 0\n    }\n  },\n  \"url\": \"https://www.wikidata.org/wiki/Q42\",\n  \"namespace\": {\n    \"identifier\": 0\n  },\n  \"is_part_of\": {\n    \"identifier\": \"wikidatawiki\",\n    \"url\": \"https://www.wikidata.org\"\n  },\n  \"entity\": {\n    \"identifier\": \"Q42\",\n    \"type\": \"item\",\n    \"labels\": {\n      \"mul\": \"Douglas Adams\",\n      \"ar\": \"دوغلاس آدمز\"\n    },\n    \"descriptions\": {\n      \"en\": \"British science fiction writer and humorist (1952–2001)\",\n      \"fr\": \"écrivain de science-fiction et humoriste anglais (1952–2001)\"\n    },\n    \"aliases\": {\n      \"mul\": [\n        \"Douglas Noël Adams\",\n        \"Douglas Noel Adams\",\n        \"Douglas N. Adams\"\n      ],\n      \"ar\": [\n        \"دوغلاس نويل آدمز\",\n        \"دوغلاس ن. آدمز\",\n        \"دوغلاس آدامز\",\n        \"دوجلاس آدمز\",\n        \"دوجلاس آدامز\"\n      ]\n    },\n    \"statements\": {\n      \"P31\": [\n        {\n          \"identifier\": \"Q42$F078E5B3-F9A8-480E-B7AC-D97778CBBEF9\",\n          \"rank\": \"normal\",\n          \"property\": {\n            \"identifier\": \"P31\",\n            \"data_type\": \"wikibase-item\",\n            \"labels\": {\n              \"en\": \"instance of\"\n            }\n          },\n          \"value\": {\n            \"content\": \"Q5\",\n            \"type\": \"wikibase-item\",\n            \"labels\": {\n              \"en\": \"human\"\n            }\n          },\n          \"qualifiers\": [\n            {\n              \"property\": {\n                \"identifier\": \"P805\",\n                \"data_type\": \"wikibase-item\",\n                \"labels\": {\n                  \"en\": \"statement is subject of\"\n                }\n              },\n              \"value\": {\n                \"content\": \"Q42395533\",\n                \"type\": \"wikibase-item\"\n              }\n            }\n          ],\n          \"references\": [\n            {\n              \"identifier\": \"a4d108601216cffd2ff1819ccf12b483486b62e7\",\n              \"parts\": [\n                {\n                  \"property\": {\n                    \"identifier\": \"P813\",\n                    \"data_type\": \"time\",\n                    \"labels\": {\n                      \"en\": \"retrieved\"\n                    }\n                  },\n                  \"value\": {\n                    \"type\": \"time\",\n                    \"content_data\": {\n                      \"after\": \"0\",\n                      \"before\": \"0\",\n                      \"calendarmodel\": \"http://www.wikidata.org/entity/Q1985727\",\n                      \"precision\": \"11\",\n                      \"time\": \"+2022-10-09T00:00:00Z\",\n                      \"timezone\": \"0\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P248\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"stated in\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q19938912\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"BnF authorities\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P268\",\n                    \"data_type\": \"external-id\",\n                    \"labels\": {\n                      \"en\": \"Bibliothèque nationale de France ID\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"11888092r\",\n                    \"type\": \"external-id\"\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P407\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"language of work or name\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q150\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"French\"\n                    }\n                  }\n                }\n              ]\n            },\n            {\n              \"identifier\": \"f38b0c50096908694fe215d33497be11eb3f9d3b\",\n              \"parts\": [\n                {\n                  \"property\": {\n                    \"identifier\": \"P248\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"stated in\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q36578\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"Integrated Authority File\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P227\",\n                    \"data_type\": \"external-id\",\n                    \"labels\": {\n                      \"en\": \"GND ID\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"119033364\",\n                    \"type\": \"external-id\"\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P407\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"language of work or name\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q188\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"German\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P813\",\n                    \"data_type\": \"time\",\n                    \"labels\": {\n                      \"en\": \"retrieved\"\n                    }\n                  },\n                  \"value\": {\n                    \"type\": \"time\",\n                    \"content_data\": {\n                      \"after\": \"0\",\n                      \"before\": \"0\",\n                      \"calendarmodel\": \"http://www.wikidata.org/entity/Q1985727\",\n                      \"precision\": \"11\",\n                      \"time\": \"+2022-10-09T00:00:00Z\",\n                      \"timezone\": \"0\"\n                    }\n                  }\n                }\n              ]\n            },\n            {\n              \"identifier\": \"3822724d621668aeee62ec03b07d3a36251b552f\",\n              \"parts\": [\n                {\n                  \"property\": {\n                    \"identifier\": \"P407\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"language of work or name\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q1321\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"Spanish\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P813\",\n                    \"data_type\": \"time\",\n                    \"labels\": {\n                      \"en\": \"retrieved\"\n                    }\n                  },\n                  \"value\": {\n                    \"type\": \"time\",\n                    \"content_data\": {\n                      \"after\": \"0\",\n                      \"before\": \"0\",\n                      \"calendarmodel\": \"http://www.wikidata.org/entity/Q1985727\",\n                      \"precision\": \"11\",\n                      \"time\": \"+2024-02-17T00:00:00Z\",\n                      \"timezone\": \"0\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P248\",\n                    \"data_type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"stated in\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"Q50358336\",\n                    \"type\": \"wikibase-item\",\n                    \"labels\": {\n                      \"en\": \"datos.bne.es\"\n                    }\n                  }\n                },\n                {\n                  \"property\": {\n                    \"identifier\": \"P950\",\n                    \"data_type\": \"external-id\",\n                    \"labels\": {\n                      \"en\": \"National Library of Spain SpMaBN ID\"\n                    }\n                  },\n                  \"value\": {\n                    \"content\": \"XX1149955\",\n                    \"type\": \"external-id\"\n                  }\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    },\n    \"sitelinks\": {\n      \"enwiki\": {\n        \"title\": \"Douglas Adams\",\n        \"badges\": [\n          \"Q17437798\"\n        ],\n        \"url\": \"https://en.wikipedia.org/wiki/Douglas_Adams\"\n      },\n      \"frwiki\": {\n        \"title\": \"Douglas Adams\",\n        \"badges\": [],\n        \"url\": \"https://fr.wikipedia.org/wiki/Douglas_Adams\"\n      }\n    }\n  },\n  \"license\": [\n    {\n      \"name\": \"Creative Commons Attribution-ShareAlike License 4.0\",\n      \"identifier\": \"CC-BY-SA-4.0\",\n      \"url\": \"https://creativecommons.org/licenses/by-sa/4.0/\"\n    }\n  ],\n  \"visibility\": {\n    \"text\": true,\n    \"editor\": true,\n    \"comment\": true\n  },\n  \"event\": {\n    \"identifier\": \"2665068d-006e-43e8-a43c-3ec926f56dbf\",\n    \"type\": \"update\",\n    \"date_created\": \"2026-10-31T16:46:05.815338Z\",\n    \"date_published\": \"2026-10-31T16:46:05.815338Z\"\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Wikidata Property Lookup (Beta)",
@@ -1608,7 +2714,39 @@
                 },
                 "description": "Returns data and metadata about the last revision of a given Wikidata Property identifier (P-number, e.g. P31).\n\nRequired: `{{wikidata_property_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/properties/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/properties/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Instance of (P31)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/wikidata/properties/P31",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "wikidata",
+                        "properties",
+                        "P31"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. Trimmed to two languages, one statement, and two sitelinks, with version details shortened."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"name\": \"P31\",\n  \"identifier\": 3918489,\n  \"date_modified\": \"2026-11-04T12:45:50Z\",\n  \"date_previously_modified\": \"2026-11-02T12:51:04Z\",\n  \"version\": {\n    \"identifier\": 2564690832\n  },\n  \"previous_version\": {\n    \"identifier\": 2563869336,\n    \"namespace\": {\n      \"identifier\": 0\n    }\n  },\n  \"url\": \"https://www.wikidata.org/wiki/Property:P31\",\n  \"namespace\": {\n    \"identifier\": 120\n  },\n  \"is_part_of\": {\n    \"identifier\": \"wikidatawiki\",\n    \"url\": \"https://www.wikidata.org\"\n  },\n  \"entity\": {\n    \"identifier\": \"P31\",\n    \"type\": \"property\",\n    \"labels\": {\n      \"en\": \"instance of\",\n      \"fr\": \"nature de l’élément\"\n    },\n    \"descriptions\": {\n      \"en\": \"type to which this subject corresponds/belongs. Different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain\",\n      \"fr\": \"un type auquel cet élément correspond. Ne pas confondre avec P279 (sous-classe de). Par ex., le Vésuve est{P31} un volcan ; les volcans sont une sous-classe{P279} de montagnes (qui est{P31} formation volcanique)\"\n    },\n    \"aliases\": {\n      \"en\": [\n        \"is a\",\n        \"is an\",\n        \"is a[n]\",\n        \"unique individual of\",\n        \"unitary element of class\",\n        \"type\",\n        \"example of\",\n        \"is of type\",\n        \"has type\",\n        \"item of type\",\n        \"was a[n]\",\n        \"will be a[n] (use 'nature of statement' = 'expected')\"\n      ],\n      \"mul\": [\n        \"rdf:type\",\n        \"∈\"\n      ]\n    },\n    \"statements\": {\n      \"P10787\": [\n        {\n          \"identifier\": \"P31$4ed09fa7-4c54-885c-b5fd-44f95edf4000\",\n          \"rank\": \"normal\",\n          \"property\": {\n            \"identifier\": \"P10787\",\n            \"data_type\": \"external-id\",\n            \"labels\": {\n              \"en\": \"FactGrid property ID\"\n            }\n          },\n          \"value\": {\n            \"content\": \"P2\",\n            \"type\": \"external-id\"\n          },\n          \"qualifiers\": [],\n          \"references\": []\n        }\n      ]\n    }\n  },\n  \"license\": [\n    {\n      \"name\": \"Creative Commons Attribution-ShareAlike License 4.0\",\n      \"identifier\": \"CC-BY-SA-4.0\",\n      \"url\": \"https://creativecommons.org/licenses/by-sa/4.0/\"\n    }\n  ],\n  \"visibility\": {\n    \"text\": true,\n    \"editor\": true,\n    \"comment\": true\n  },\n  \"event\": {\n    \"identifier\": \"fe2e045d-a770-4663-9713-30b64a0607b8\",\n    \"type\": \"update\",\n    \"date_created\": \"2026-11-04T12:45:52.047503Z\",\n    \"date_published\": \"2026-11-04T12:45:52.047503Z\"\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Wikidata Labels List (Beta)",
@@ -1629,7 +2767,39 @@
                 },
                 "description": "Returns a single JSON object of key-value pairs, where the key is the Wikimedia language code and the value is the label for that language code. Works for Wikidata item identifiers (Q-number) and property identifiers (P-number). Only gives access to the Main Wikidata graph for item identifiers. Gives access to all property identifiers.\n\nRequired: `{{wikidata_entity_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/labels/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/labels/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Labels for Q42",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/wikidata/labels/Q42",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "wikidata",
+                        "labels",
+                        "Q42"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"ar\": \"دوغلاس آدمز\",\n  \"ary\": \"دوڭلاس أدامز\",\n  \"arz\": \"دوجلاس ادامز\",\n  \"as\": \"ড’গলাছ এডাম্‌ছ\",\n  \"az\": \"Duqlas Adams\",\n  \"azb\": \"داقلاس آدامز\",\n  \"ba\": \"Дуглас Адамс\",\n  \"be\": \"Дуглас Адамс\",\n  \"be-tarask\": \"Дуглас Адамз\",\n  \"bg\": \"Дъглас Адамс\",\n  \"bho\": \"डगलस एडम्स\",\n  \"bn\": \"ডগলাস অ্যাডামস\",\n  \"ckb\": \"دەگلاس ئادمز\",\n  \"cv\": \"Дуглас Адамс\",\n  \"el\": \"Ντάγκλας Άνταμς\",\n  \"fa\": \"داگلاس آدامز\",\n  \"gu\": \"ડગ્લાસ એડમ્સ\",\n  \"he\": \"דאגלס אדמס\",\n  \"hi\": \"डग्लस अ‍डम्स\",\n  \"hy\": \"Դուգլաս Ադամս\",\n  \"isv-cyrl\": \"Дуглас Адамс\",\n  \"iu\": \"ᑕᒡᓚᔅ ᐋᑕᒻᔅ\",\n  \"ja\": \"ダグラス・アダムズ\",\n  \"ka\": \"დაგლას ადამსი\",\n  \"kn\": \"ಡಗ್ಲಸ್ ಆಡಮ್ಸ್\",\n  \"ko\": \"더글러스 애덤스\",\n  \"ks\": \"ڈگلس ایڈمز\",\n  \"ky\": \"Дуглас Адамс\",\n  \"la\": \"Duglassius Adams\",\n  \"lv\": \"Duglass Adamss\",\n  \"mk\": \"Даглас Адамс\",\n  \"ml\": \"ഡഗ്ലസ് ആഡംസ്\",\n  \"mr\": \"डग्लस अॅडम्स\",\n  \"mrj\": \"Адамс\",\n  \"ms-arab\": \"دݢلس ايدمﺯ\",\n  \"mul\": \"Douglas Adams\",\n  \"mzn\": \"داگلاس آدامز\",\n  \"nan-hani\": \"道哥拉斯·亞當斯\",\n  \"nan-hant\": \"道哥拉斯·亞當斯\",\n  \"ne\": \"डगलस एडम्स\",\n  \"nqo\": \"ߘߎߜ߭ߑߟߊߛ ߊߘߊߡߛ\",\n  \"or\": \"ଡଗ୍‌ଲାସ୍‌ ଆଦାମ୍‌ସ\",\n  \"pa\": \"ਡਗਲਸ ਐਡਮਸ\",\n  \"pnb\": \"ڈگلس ایڈمس\",\n  \"ps\": \"دوگلاس ادامز\",\n  \"ru\": \"Дуглас Адамс\",\n  \"rwr\": \"डग्लस अ‍डम्स\",\n  \"sat\": \"ᱰᱚᱜᱽᱞᱟᱥ ᱮᱰᱟᱢᱥ\",\n  \"si\": \"ඩග්ලස් ඇඩම්ස්\",\n  \"skr\": \"ڈگلس ایڈمس\",\n  \"sr\": \"Даглас Адамс\",\n  \"sr-ec\": \"Даглас Адамс\",\n  \"sr-el\": \"Daglas Adams\",\n  \"ta\": \"டக்ளஸ் ஆடம்ஸ்\",\n  \"tcy\": \"ಡಾಗ್ಲಸ್ ಆಡಮ್ಸ್\",\n  \"te\": \"డగ్లస్ ఆడమ్స్\",\n  \"th\": \"ดักลัส แอดัมส์\",\n  \"tok\": \"jan Taka Atan\",\n  \"tt\": \"Дуглас Адамс\",\n  \"tt-cyrl\": \"Дуглас Адамс\",\n  \"uk\": \"Дуглас Адамс\",\n  \"ur\": \"ڈگلس ایڈم\",\n  \"vep\": \"Adams Duglas\",\n  \"wuu\": \"道格拉斯·亚当斯\",\n  \"yi\": \"דאַגלאַס אַדאַמס\",\n  \"yue\": \"道格拉斯亞當斯\",\n  \"zh\": \"道格拉斯·亞當斯\",\n  \"zh-cn\": \"道格拉斯·亚当斯\",\n  \"zh-hans\": \"道格拉斯·亚当斯\",\n  \"zh-hant\": \"道格拉斯·亞當斯\",\n  \"zh-hk\": \"道格拉斯·亞當斯\",\n  \"zh-mo\": \"道格拉斯·亞當斯\",\n  \"zh-my\": \"道格拉斯·亚当斯\",\n  \"zh-sg\": \"道格拉斯·亚当斯\",\n  \"zh-tw\": \"道格拉斯·亞當斯\"\n}"
+                }
+              ]
             }
           ],
           "description": "Reference Documentation: [https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta](https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta)\n\nWikidata is the central knowledge base for the structured data of Wikimedia's projects: Wikipedia, Wikivoyage, Wiktionary, and more. It connects data from disparate Wikimedia projects and languages, as well as hundreds of external databases and knowledge bases, through their identifiers. In this way, Wikidata is a hub of linked knowledge. It currently contains over 120 million items, structured as Linked Open Data.\n\n| Endpoint Name | Primary Purpose | Required identifier |\n| --- | --- | --- |\n| Item Lookup | Get all data and metadata of the last revision of an item: revision info, labels, descriptions, statements, sitelinks | Q-number (e.g., Q42: Douglas Adams) |\n| Property Lookup | Retrieve all information about a property, a single category that connects statements | P-number (e.g., P106: occupation) |"
@@ -1744,7 +2914,59 @@
             },
             "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
           },
-          "response": []
+          "response": [
+            {
+              "name": "Select fields (GET capture)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{realtime_server}}/v2/wikidata?fields=name&fields=date_modified&fields=url&fields=is_part_of.identifier&fields=event.type",
+                  "host": [
+                    "{{realtime_server}}"
+                  ],
+                  "path": [
+                    "v2",
+                    "wikidata"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "name"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "date_modified"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "url"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "is_part_of.identifier"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "event.type"
+                    }
+                  ]
+                },
+                "description": "Captured from DEV on 2026-11-07. Sent as a GET with fields as query parameters, and stopped after 3 events."
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/x-ndjson; charset=utf-8"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"name\":\"Q2222004\",\"date_modified\":\"2026-11-07T02:22:20Z\",\"url\":\"https://www.wikidata.org/wiki/Q2222004\",\"is_part_of\":{\"identifier\":\"wikidatawiki\"},\"event\":{\"type\":\"update\",\"partition\":25}}\n{\"name\":\"Q133484337\",\"date_modified\":\"2026-11-07T02:22:21Z\",\"url\":\"https://www.wikidata.org/wiki/Q133484337\",\"is_part_of\":{\"identifier\":\"wikidatawiki\"},\"event\":{\"type\":\"update\",\"partition\":35}}\n{\"name\":\"Q5248257\",\"date_modified\":\"2026-11-07T02:22:20Z\",\"url\":\"https://www.wikidata.org/wiki/Q5248257\",\"is_part_of\":{\"identifier\":\"wikidatawiki\"},\"event\":{\"type\":\"update\",\"partition\":14}}\n"
+            }
+          ]
         },
         {
           "name": "Realtime: Batch",
@@ -1768,7 +2990,39 @@
                 },
                 "description": "Returns a list of available Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "All files for one hour (first 3)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. Trimmed to the first 3 of 292 entries."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"identifier\": \"afwiki_namespace_0\",\n    \"version\": \"f1548a03b3fe0a5434be12fc394c2b6d\",\n    \"date_modified\": \"2026-11-05T13:05:04.77754388Z\",\n    \"is_part_of\": {\n      \"identifier\": \"afwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"af\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 1.238,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 118\n  },\n  {\n    \"identifier\": \"afwiki_namespace_10\",\n    \"version\": \"e570f4e30d766c0b769365db38d95af7\",\n    \"date_modified\": \"2026-11-05T13:05:05.320652618Z\",\n    \"is_part_of\": {\n      \"identifier\": \"afwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"af\"\n    },\n    \"namespace\": {\n      \"identifier\": 10\n    },\n    \"size\": {\n      \"value\": 0.103,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 27\n  },\n  {\n    \"identifier\": \"afwiki_namespace_14\",\n    \"version\": \"4e532e8e31ca98c85a67198eb1eafae8\",\n    \"date_modified\": \"2026-11-05T13:05:05.600100725Z\",\n    \"is_part_of\": {\n      \"identifier\": \"afwiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"af\"\n    },\n    \"namespace\": {\n      \"identifier\": 14\n    },\n    \"size\": {\n      \"value\": 0.007,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 6\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Hourly Batch File Info",
@@ -1790,7 +3044,40 @@
                 },
                 "description": "Information on a specific Realtime: Batch file. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "English Wikipedia",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/enwiki_namespace_0",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "enwiki_namespace_0"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"identifier\": \"enwiki_namespace_0\",\n  \"version\": \"0286e87e7a8e0a16bfad9f519eea4d3a\",\n  \"date_modified\": \"2026-11-05T13:02:29.58515286Z\",\n  \"is_part_of\": {\n    \"identifier\": \"enwiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 0\n  },\n  \"size\": {\n    \"value\": 194.515,\n    \"unit_text\": \"MB\"\n  },\n  \"record_count\": 3375\n}"
+                }
+              ]
             },
             {
               "name": "Hourly Batch File Download",
@@ -1824,7 +3111,45 @@
                 },
                 "description": "Downloadable bundle of updated articles by project, namespace, date, and hour. Generated hourly starting at 00:00 UTC each day.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/GET/v2/batches/{date}/{hour}/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/batches/GET/v2/batches/{date}/{hour}/{identifier}/download)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Redirect to the file",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/enwiki_namespace_0/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "enwiki_namespace_0",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+                  },
+                  "status": "Temporary Redirect",
+                  "code": 307,
+                  "_postman_previewlanguage": "html",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "text/html; charset=utf-8"
+                    },
+                    {
+                      "key": "Location",
+                      "value": "https://wme-eks-data-pr.s3.amazonaws.com/batches/2026-11-05/12/enwiki_namespace_0.tar.gz?<presigned query removed>"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/batches/2026-11-05/12/enwiki_namespace_0.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+                }
+              ]
             },
             {
               "name": "Hourly Batch File Download Headers",
@@ -1854,36 +3179,53 @@
               },
               "response": [
                 {
-                  "name": "Hourly Batch File Download Headers",
+                  "name": "English Wikipedia",
                   "originalRequest": {
                     "method": "HEAD",
-                    "header": [
-                      {
-                        "key": "Range",
-                        "value": "",
-                        "description": "The Range HTTP request header indicates the part of a document that the server should return.",
-                        "type": "text"
-                      }
-                    ],
+                    "header": [],
                     "url": {
-                      "raw": "{{api_server}}/v2/batches/{{date}}/{{hour}}/{{snapshot_identifier}}/download",
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/enwiki_namespace_0/download",
                       "host": [
                         "{{api_server}}"
                       ],
                       "path": [
                         "v2",
                         "batches",
-                        "{{date}}",
-                        "{{hour}}",
-                        "{{snapshot_identifier}}",
+                        "2026-11-05",
+                        "12",
+                        "enwiki_namespace_0",
                         "download"
                       ]
-                    }
+                    },
+                    "description": "Captured from production on 2026-11-07."
                   },
-                  "_postman_previewlanguage": null,
-                  "header": null,
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "binary/octet-stream"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "194515009"
+                    },
+                    {
+                      "key": "Accept-Ranges",
+                      "value": "bytes"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "\"78002e2dc24b13803d10486aed2c975f-2\""
+                    },
+                    {
+                      "key": "Last-Modified",
+                      "value": "Thu, 05 Nov 2026 13:02:29 UTC"
+                    }
+                  ],
                   "cookie": [],
-                  "body": null
+                  "body": ""
                 }
               ]
             },
@@ -1907,7 +3249,40 @@
                 },
                 "description": "Returns a list of available Wikidata Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Items and properties",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/wikidata",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "wikidata"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "[\n  {\n    \"identifier\": \"wikidata_items\",\n    \"version\": \"b7de7f72d9c42ee42c2e8312c5148817\",\n    \"date_modified\": \"2026-11-05T13:01:41.322934853Z\",\n    \"is_part_of\": {\n      \"identifier\": \"wikidatawiki\"\n    },\n    \"in_language\": {\n      \"identifier\": \"en\"\n    },\n    \"namespace\": {\n      \"identifier\": 0\n    },\n    \"size\": {\n      \"value\": 36.349,\n      \"unit_text\": \"MB\"\n    },\n    \"record_count\": 14587\n  }\n]"
+                }
+              ]
             },
             {
               "name": "Wikidata Hourly Batch File Info (Beta)",
@@ -1930,7 +3305,41 @@
                 },
                 "description": "Information on the hourly Wikidata `items` or `properties` batch for a given date and hour. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata/{identifier})"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Properties",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/wikidata/properties",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "wikidata",
+                        "properties"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n  \"identifier\": \"wikidata_properties\",\n  \"version\": \"2339ea7800f4721994d9fb967cf91b37\",\n  \"date_modified\": \"2026-11-05T13:01:42.408601356Z\",\n  \"is_part_of\": {\n    \"identifier\": \"wikidatawiki\"\n  },\n  \"in_language\": {\n    \"identifier\": \"en\"\n  },\n  \"namespace\": {\n    \"identifier\": 120\n  },\n  \"size\": {\n    \"unit_text\": \"MB\"\n  }\n}"
+                }
+              ]
             },
             {
               "name": "Wikidata Hourly Batch File Download (Beta)",
@@ -1962,7 +3371,46 @@
                 },
                 "description": "Downloadable bundle of the Wikidata items or properties updated in a given date and hour. Generated hourly starting at 00:00 UTC each day.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/GET/v2/batches/{date}/{hour}/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/GET/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
               },
-              "response": [],
+              "response": [
+                {
+                  "name": "Redirect to the file",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/wikidata/properties/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "wikidata",
+                        "properties",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07. The presigned query string is removed; it carries temporary credentials."
+                  },
+                  "status": "Temporary Redirect",
+                  "code": 307,
+                  "_postman_previewlanguage": "html",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "text/html; charset=utf-8"
+                    },
+                    {
+                      "key": "Location",
+                      "value": "https://wme-eks-data-pr.s3.amazonaws.com/batches/2026-11-05/12/wikidata/properties.tar.gz?<presigned query removed>"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "<a href=\"https://wme-eks-data-pr.s3.amazonaws.com/batches/2026-11-05/12/wikidata/properties.tar.gz?<presigned query removed>\">Temporary Redirect</a>.\n\n"
+                }
+              ],
               "protocolProfileBehavior": {
                 "followRedirects": false
               }
@@ -1989,7 +3437,58 @@
                 },
                 "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/HEAD/v2/batches/{date}/{hour}/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/HEAD/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
               },
-              "response": []
+              "response": [
+                {
+                  "name": "Properties",
+                  "originalRequest": {
+                    "method": "HEAD",
+                    "header": [],
+                    "url": {
+                      "raw": "{{api_server}}/v2/batches/2026-11-05/12/wikidata/properties/download",
+                      "host": [
+                        "{{api_server}}"
+                      ],
+                      "path": [
+                        "v2",
+                        "batches",
+                        "2026-11-05",
+                        "12",
+                        "wikidata",
+                        "properties",
+                        "download"
+                      ]
+                    },
+                    "description": "Captured from production on 2026-11-07."
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "binary/octet-stream"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "34"
+                    },
+                    {
+                      "key": "Accept-Ranges",
+                      "value": "bytes"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "\"2339ea7800f4721994d9fb967cf91b37\""
+                    },
+                    {
+                      "key": "Last-Modified",
+                      "value": "Thu, 05 Nov 2026 13:01:43 UTC"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": ""
+                }
+              ]
             }
           ],
           "description": "Realtime: Batch bundles each hour's article updates into downloadable files, generated hourly starting at 00:00 UTC. Use it to get real-time updates without keeping a streaming connection open.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)"
