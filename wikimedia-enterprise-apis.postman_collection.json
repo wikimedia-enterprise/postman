@@ -15,75 +15,31 @@
           "name": "Login",
           "event": [
             {
-              "listen": "test",
+              "listen": "prerequest",
               "script": {
-                "exec": [
-                  "// Saves the tokens in the same collection variables the collection pre-request script uses.",
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "if (pm.response.code === 200) {",
-                  "    const body = pm.response.json();",
-                  "    pm.test(\"Access token is present\", function () {",
-                  "        pm.expect(body).to.have.property(\"access_token\");",
-                  "    });",
-                  "",
-                  "    if (body.access_token) {",
-                  "        const now = Date.now();",
-                  "        pm.collectionVariables.set(\"access_token\", body.access_token);",
-                  "        pm.collectionVariables.set(\"access_token_expires_at\", String(now + (body.expires_in || 86400) * 1000));",
-                  "        if (body.refresh_token) {",
-                  "            pm.collectionVariables.set(\"refresh_token\", body.refresh_token);",
-                  "            pm.collectionVariables.set(\"refresh_token_expires_at\", String(now + 90 * 24 * 60 * 60 * 1000));",
-                  "        }",
-                  "    }",
-                  "}"
-                ],
                 "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "exec": [
+                  "// Sends the body as JSON, built with JSON.stringify so a password with quotes or backslashes stays valid.",
+                  "// The body shown below is what this script replaces. Outside the Postman app, it reads the",
+                  "// wmeUsername and wmePassword variables instead of the vault.",
+                  "async function secret(name) {",
+                  "    try {",
+                  "        const value = typeof pm.vault !== \"undefined\" ? await pm.vault.get(name) : undefined;",
+                  "        if (value) {",
+                  "            return value;",
+                  "        }",
+                  "    } catch (err) {",
+                  "        // No vault access: fall back to variables, as outside the Postman app.",
+                  "    }",
+                  "    return pm.variables.get(name);",
+                  "}",
+                  "",
+                  "const username = await secret(\"wmeUsername\");",
+                  "const password = await secret(\"wmePassword\");",
+                  "pm.request.body.update(JSON.stringify({ username, password }));"
+                ]
               }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
             },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "username",
-                  "value": "{{vault:wmeUsername}}",
-                  "type": "text"
-                },
-                {
-                  "key": "password",
-                  "value": "{{vault:wmePassword}}",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{auth_server}}/v1/login",
-              "host": [
-                "{{auth_server}}"
-              ],
-              "path": [
-                "v1",
-                "login"
-              ]
-            },
-            "description": "Create new access, id, and refresh tokens with your valid username and password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login)"
-          },
-          "response": []
-        },
-        {
-          "name": "Refresh Token",
-          "event": [
             {
               "listen": "test",
               "script": {
@@ -121,21 +77,114 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "username",
-                  "value": "{{vault:wmeUsername}}",
-                  "type": "text"
-                },
-                {
-                  "key": "refresh_token",
-                  "value": "{{refresh_token}}",
-                  "type": "text"
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{vault:wmeUsername}}\",\n  \"password\": \"{{vault:wmePassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
                 }
+              }
+            },
+            "url": {
+              "raw": "{{auth_server}}/v1/login",
+              "host": [
+                "{{auth_server}}"
+              ],
+              "path": [
+                "v1",
+                "login"
               ]
+            },
+            "description": "Create new access, id, and refresh tokens with your valid username and password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/login)"
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Sends the body as JSON, built with JSON.stringify. The body shown below is what this script replaces.",
+                  "// Outside the Postman app, it reads the wmeUsername variable instead of the vault.",
+                  "async function secret(name) {",
+                  "    try {",
+                  "        const value = typeof pm.vault !== \"undefined\" ? await pm.vault.get(name) : undefined;",
+                  "        if (value) {",
+                  "            return value;",
+                  "        }",
+                  "    } catch (err) {",
+                  "        // No vault access: fall back to variables, as outside the Postman app.",
+                  "    }",
+                  "    return pm.variables.get(name);",
+                  "}",
+                  "",
+                  "const username = await secret(\"wmeUsername\");",
+                  "const refreshToken = pm.collectionVariables.get(\"refresh_token\");",
+                  "pm.request.body.update(JSON.stringify({ username, refresh_token: refreshToken }));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Saves the tokens in the same collection variables the collection pre-request script uses.",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    const body = pm.response.json();",
+                  "    pm.test(\"Access token is present\", function () {",
+                  "        pm.expect(body).to.have.property(\"access_token\");",
+                  "    });",
+                  "",
+                  "    if (body.access_token) {",
+                  "        const now = Date.now();",
+                  "        pm.collectionVariables.set(\"access_token\", body.access_token);",
+                  "        pm.collectionVariables.set(\"access_token_expires_at\", String(now + (body.expires_in || 86400) * 1000));",
+                  "        if (body.refresh_token) {",
+                  "            pm.collectionVariables.set(\"refresh_token\", body.refresh_token);",
+                  "            pm.collectionVariables.set(\"refresh_token_expires_at\", String(now + 90 * 24 * 60 * 60 * 1000));",
+                  "        }",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{vault:wmeUsername}}\",\n  \"refresh_token\": \"{{refresh_token}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{auth_server}}/v1/token-refresh",
