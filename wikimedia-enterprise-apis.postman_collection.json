@@ -175,7 +175,7 @@
             "auth": {
               "type": "noauth"
             },
-            "description": "Revokes the associated access tokens with your valid refresh token.\n\nAfterwards the collection clears its stored tokens, so the next request logs in again.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-revoke](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-revoke)"
+            "description": "Revokes your refresh token and the access tokens issued from it.\n\nAfterwards the collection clears its stored tokens, so the next request logs in again.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/token-revoke)"
           },
           "response": [],
           "event": [
@@ -234,7 +234,7 @@
                 }
               ]
             },
-            "description": "Changes user password with your valid access token, current password, and a new proposed password.\n\n**Note:** This endpoint currently accepts the access token in the request body (`access_token` field) rather than via the `Authorization: Bearer` header. A future API version will align it with the rest of the platform's bearer-auth convention.\n\nAfter changing your password, update the `wmePassword` secret in your Postman Vault.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/change-password](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/change-password)"
+            "description": "Changes your password, using your access token, your current password, and the new one.\n\nThis endpoint takes the access token in the request body (`access_token`), not in the `Authorization` header.\n\nAfter changing your password, update the `wmePassword` secret in your Postman Vault.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/change-password)"
           },
           "response": []
         },
@@ -263,7 +263,7 @@
                 "forgot-password"
               ]
             },
-            "description": "Sends a confirmation code via email. That code is then required to change user's password using /v1/forgot-password-confirm.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password)"
+            "description": "Emails you a confirmation code. Use it with **Forgot Password Confirmation** to set a new password.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password)"
           },
           "response": []
         },
@@ -302,7 +302,7 @@
                 "forgot-password-confirm"
               ]
             },
-            "description": "Changes user password with your valid username, confirmation_code sent to your email from previously hitting /v1/forgot-password endpoint, and new password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password-confirm](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password-confirm)"
+            "description": "Sets a new password, using your username, the `confirmation_code` emailed by **Forgot Password**, and the new password.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/forgot-password-confirm)"
           },
           "response": []
         },
@@ -344,12 +344,12 @@
             "auth": {
               "type": "noauth"
             },
-            "description": "Responds `NEW_PASSWORD_REQUIRED` challenge by receiving username and session token and setting new password.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/new-password-required](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/new-password-required)"
+            "description": "Sets a new password when **Login** answers with the `NEW_PASSWORD_REQUIRED` challenge. Send your username, the `session` from the Login response, and the new password.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/authentication/POST/v1/new-password-required)"
           },
           "response": []
         }
       ],
-      "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/authentication/](https://enterprise.wikimedia.com/docs/authentication/)\n\nUse your account credentials (_username in lowercase_) and tokens to manage your account programmatically. Access tokens expire after 24 hours, while refresh tokens expire after 90 days. You can only use the same refresh token up to 90 times to get a new access token. Use the [Login](https://enterprise.wikimedia.com/docs/authentication/) endpoint to receive your tokens, then use the [Refresh Token](https://enterprise.wikimedia.com/docs/authentication/) and [Revoke Token](https://enterprise.wikimedia.com/docs/authentication/) endpoints to manage them. Your account password can also be managed with the associated endpoints referenced in this document.\n\n_Note: if you are a Wikimedia community member, you can get exclusive access to Wikimedia Enterprise APIs that might not need authentication. Find out more_ [<i>here</i>](https://meta.wikimedia.org/wiki/Wikimedia_Enterprise#Access)_._"
+      "description": "Log in, refresh and revoke tokens, and manage your password. Use your Wikimedia Enterprise username in lowercase.\n\nAccess tokens last 24 hours and refresh tokens last 90 days; each refresh token can be used up to 90 times. The collection logs in and refreshes for you, so you only need these requests to manage your tokens or password yourself.\n\n[Authentication docs](https://enterprise.wikimedia.com/docs/authentication/)"
     },
     {
       "name": "Metadata",
@@ -382,7 +382,7 @@
                 "codes"
               ]
             },
-            "description": "Lists available project codes (types). Includes project code (type) identifier, name and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes](https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes)"
+            "description": "Lists the available project codes (project types), with each identifier, name, and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes)"
           },
           "response": []
         },
@@ -402,7 +402,7 @@
                 "{{project_code}}"
               ]
             },
-            "description": "Information on a specific project code (type). Includes identifier, name and description.\n\nRequired: `{{project_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes/{identifier})"
+            "description": "Information on a specific project code (project type), including its identifier, name, and description.\n\nRequired: `{{project_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/codes/POST/v2/codes/{identifier})"
           },
           "response": [
             {
@@ -450,7 +450,7 @@
                 "languages"
               ]
             },
-            "description": "Lists of available languages. Includes language identifier, name, direction and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages](https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages)"
+            "description": "Lists the available languages, with each identifier, name, text direction, and other metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages)"
           },
           "response": []
         },
@@ -480,7 +480,7 @@
                 "{{language_code}}"
               ]
             },
-            "description": "Information on specific language. Includes identifier, name, direction and other relevant metadata.\n\nRequired: `{{language_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages/{identifier})"
+            "description": "Information on a specific language, including its identifier, name, and text direction.\n\nRequired: `{{language_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/languages/POST/v2/languages/{identifier})"
           },
           "response": [
             {
@@ -550,7 +550,7 @@
                 "projects"
               ]
             },
-            "description": "List of available projects. Includes project identifier, name, language and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects](https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects)"
+            "description": "Lists the available projects, with each identifier, name, language, and other metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects)"
           },
           "response": []
         },
@@ -570,7 +570,7 @@
                 "{{project_language_code}}"
               ]
             },
-            "description": "Information on specific project. Includes identifier, name, language and other relevant metadata.\n\nRequired: `{{project_language_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects/{identifier})"
+            "description": "Information on a specific project, including its identifier, name, and language.\n\nRequired: `{{project_language_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/projects/POST/v2/projects/{identifier})"
           },
           "response": [
             {
@@ -627,7 +627,7 @@
                 "namespaces"
               ]
             },
-            "description": "List of available namespaces. Includes name, identifier and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces](https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces)"
+            "description": "Lists the available namespaces, with each name, identifier, and description.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces)"
           },
           "response": []
         },
@@ -647,7 +647,7 @@
                 "{{namespace_code}}"
               ]
             },
-            "description": "Information on specific namespace. Includes name, identifier and description.\n\nRequired: `{{namespace_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces/{identifier})"
+            "description": "Information on a specific namespace, including its name, identifier, and description.\n\nRequired: `{{namespace_code}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/namespaces/POST/v2/namespaces/{identifier})"
           },
           "response": [
             {
@@ -690,7 +690,7 @@
           ]
         }
       ],
-      "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/metadata/](https://enterprise.wikimedia.com/docs/metadata/)\n\nMetadata endpoints provide the reference data you'll need to use the APIs effectively. These utility endpoints return project codes, language identifiers, and namespace mappings. This information helps you build accurate API queries, filter results by project or language, and understand the structure of article responses."
+      "description": "Reference data for building requests: project codes, languages, projects, and namespaces. Use these identifiers to filter results by project or language and to read article responses.\n\n[Metadata docs](https://enterprise.wikimedia.com/docs/metadata/)"
     },
     {
       "name": "Snapshot API",
@@ -710,7 +710,7 @@
                 "snapshots"
               ]
             },
-            "description": "Returns a list of available project snapshots by namespace. Includes identifiers, file sizes and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots)"
+            "description": "Returns a list of available project snapshots by namespace. Includes identifiers, file sizes and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots)"
           },
           "response": []
         },
@@ -730,7 +730,7 @@
                 "{{snapshot_identifier}}"
               ]
             },
-            "description": "Information on a specific snapshot bundle. Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier})"
+            "description": "Information on a specific snapshot bundle. Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier})"
           },
           "response": [
             {
@@ -782,7 +782,7 @@
                 "download"
               ]
             },
-            "description": "Downloadable bundle of all current revisions in a specified project and namespace. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{identifier}/download)"
+            "description": "Downloadable bundle of all current revisions in a specified project and namespace.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Snapshot Download Headers**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{identifier}/download)"
           },
           "response": [],
           "protocolProfileBehavior": {
@@ -806,7 +806,7 @@
                 "download"
               ]
             },
-            "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{identifier}/download)"
+            "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{identifier}/download)"
           },
           "response": [
             {
@@ -863,7 +863,7 @@
                 "chunks"
               ]
             },
-            "description": "Returns a list of available chunks for a specific snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}/chunks](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}/chunks)"
+            "description": "Returns a list of available chunks for a specific snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{identifier}/chunks)"
           },
           "response": []
         },
@@ -885,7 +885,7 @@
                 "{{chunk_identifier}}"
               ]
             },
-            "description": "Information on a specific chunk of a snapshot. Includes chunk identifier, size, and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier})"
+            "description": "Information on a specific chunk of a snapshot. Includes chunk identifier, size, and other relevant metadata.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/POST/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier})"
           },
           "response": [
             {
@@ -956,7 +956,7 @@
                 "download"
               ]
             },
-            "description": "Downloadable bundle of a specific chunk from a snapshot. Returns a zipped tar file.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download)"
+            "description": "Downloadable bundle of a specific chunk from a snapshot. Returns a zipped tar file.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Snapshot Chunk Download Headers**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/GET/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download)"
           },
           "response": [],
           "protocolProfileBehavior": {
@@ -982,7 +982,7 @@
                 "download"
               ]
             },
-            "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download)"
+            "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`, `{{chunk_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/snapshots/HEAD/v2/snapshots/{snapshot_identifier}/chunks/{chunk_identifier}/download)"
           },
           "response": [
             {
@@ -1044,7 +1044,7 @@
                     "structured-contents"
                   ]
                 },
-                "description": "Returns a list of available project Structured Contents snapshots.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents)"
+                "description": "Returns a list of available project Structured Contents snapshots.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents)"
               },
               "response": []
             },
@@ -1065,7 +1065,7 @@
                     "{{snapshot_identifier}}"
                   ]
                 },
-                "description": "Information on a specific Structured Contents snapshot bundle.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier})"
+                "description": "Information on a specific Structured Contents snapshot bundle.\n\nRequired: `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/POST/v2/snapshots/structured-contents/{identifier})"
               },
               "response": [
                 {
@@ -1134,7 +1134,7 @@
                     "download"
                   ]
                 },
-                "description": "Downloadable bundle of Structured Contents of all current revisions in a specified project and namespace. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download)"
+                "description": "Downloadable bundle of Structured Contents of all current revisions in a specified project and namespace.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Structured Contents Snapshot Download Headers (Beta)**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/GET/v2/snapshots/structured-contents/{identifier}/download)"
               },
               "response": [],
               "protocolProfileBehavior": {
@@ -1159,7 +1159,7 @@
                     "download"
                   ]
                 },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download)"
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/structured-snapshots/HEAD/v2/snapshots/structured-contents/{identifier}/download)"
               },
               "response": [
                 {
@@ -1245,11 +1245,11 @@
               ]
             }
           ],
-          "description": "See: [https://enterprise.wikimedia.com/api/structured-contents/](https://enterprise.wikimedia.com/api/structured-contents/)\n\nStructured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nStructured Contents currently extracts the following article pieces into JSON:\n\n- `abstract`\n    \n- `description`\n    \n- `main image`\n    \n- `infobox`\n    \n- `sections`\n    \n- `lists`\n    \n- `citations` & `references`\n    \n- `tables`"
+          "description": "Snapshots of Structured Contents: each article's abstract, description, main image, infobox, sections, lists, citations, references, and tables, parsed into JSON.\n\n[Structured Contents](https://enterprise.wikimedia.com/api/structured-contents/)"
         },
         {
           "name": "Wikidata Snapshots (Beta)",
-          "description": "Wikidata project data has its own Snapshot endpoints: `items` (every current item in the Wikidata Main Graph) and `properties` (every current property), each as one NDJSON file in a compressed tarball, updated daily at 00:00 UTC, and split into chunks for parallel downloads.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/snapshot/](https://enterprise.wikimedia.com/docs/snapshot/)",
+          "description": "Wikidata has its own snapshots: `items` (every current item in the main Wikidata graph) and `properties` (every current property). Each is one NDJSON file in a compressed tarball, split into chunks for parallel downloads.\n\n[Snapshot API docs](https://enterprise.wikimedia.com/docs/snapshot/)",
           "item": [
             {
               "name": "Wikidata Snapshots Available (Beta)",
@@ -1267,7 +1267,7 @@
                     "wikidata"
                   ]
                 },
-                "description": "Returns the list of available Wikidata snapshots, currently `items` and `properties`. Includes identifiers, file sizes, record counts, and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata)"
+                "description": "Returns the list of available Wikidata snapshots, currently `items` and `properties`. Includes identifiers, file sizes, record counts, and other relevant metadata.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata)"
               },
               "response": []
             },
@@ -1288,7 +1288,7 @@
                     "{{wikidata_identifier}}"
                   ]
                 },
-                "description": "Information on the Wikidata `items` or `properties` snapshot. Includes identifier, file size, record count, chunk identifiers, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier})"
+                "description": "Information on the Wikidata `items` or `properties` snapshot. Includes identifier, file size, record count, chunk identifiers, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier})"
               },
               "response": []
             },
@@ -1318,7 +1318,7 @@
                     "download"
                   ]
                 },
-                "description": "Downloadable bundle of every current item in the Wikidata Main Graph (`items`) or every current property (`properties`), as one NDJSON file in a compressed tarball. Updated daily at 00:00 UTC.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/download)"
+                "description": "Downloadable bundle of every current item in the Wikidata Main Graph (`items`) or every current property (`properties`), as one NDJSON file in a compressed tarball.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Wikidata Snapshot Download Headers (Beta)**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{wikidata_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/download)"
               },
               "response": [],
               "protocolProfileBehavior": {
@@ -1343,7 +1343,7 @@
                     "download"
                   ]
                 },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/download)"
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/download)"
               },
               "response": []
             },
@@ -1365,7 +1365,7 @@
                     "chunks"
                   ]
                 },
-                "description": "Returns a list of available chunks for the Wikidata `items` or `properties` snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks)"
+                "description": "Returns a list of available chunks for the Wikidata `items` or `properties` snapshot. Includes chunk identifiers and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks)"
               },
               "response": []
             },
@@ -1388,7 +1388,7 @@
                     "{{wikidata_chunk_identifier}}"
                   ]
                 },
-                "description": "Information on a specific chunk of the Wikidata `items` or `properties` snapshot. Includes chunk identifier, size, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier})"
+                "description": "Information on a specific chunk of the Wikidata `items` or `properties` snapshot. Includes chunk identifier, size, and other relevant metadata.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/POST/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier})"
               },
               "response": []
             },
@@ -1420,7 +1420,7 @@
                     "download"
                   ]
                 },
-                "description": "Downloadable bundle of a specific chunk from the Wikidata `items` or `properties` snapshot. Returns a zipped tar file.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
+                "description": "Downloadable bundle of a specific chunk from the Wikidata `items` or `properties` snapshot. Returns a zipped tar file.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Wikidata Snapshot Chunk Download Headers (Beta)**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/GET/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
               },
               "response": [],
               "protocolProfileBehavior": {
@@ -1447,14 +1447,14 @@
                     "download"
                   ]
                 },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{wikidata_identifier}}`, `{{wikidata_chunk_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-snapshots/HEAD/v2/snapshots/wikidata/{identifier}/chunks/{chunk_identifier}/download)"
               },
               "response": []
             }
           ]
         }
       ],
-      "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/snapshot/](https://enterprise.wikimedia.com/docs/snapshot/)\n\nOur Snapshot API provides you the entirety of a Wikimedia project (examples: English Wikipedia or French Wiktionary) in a compressed tarball (.tar.gz) that contains a single .ndjson file. This file holds all articles (pages), with all data fields, in Newline-Delimited JSON format. **Updated once a month, on the 1st day of the month**, these snapshots are **provided free** with an account. A free account also includes Structured Contents snapshots.\n\nUse our [metadata endpoints](https://enterprise.wikimedia.com/docs/metadata/) to find the project snapshot(s) you need and make use of parallel downloading headers or chunking to break up large files. Feel free to reference our [Data Dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/) for information about the fields in the payload.\n\nIf you need fresher data, you can get up to daily snapshot updates by [contacting Sales](https://enterprise.wikimedia.com/contact/).\n\n_Note: Snapshots, Structured Contents snapshots, and chunks may contain a small amount of duplicate articles (< 1%). Similarly, they may contain a small amount of deleted articles.__When encountering more than one instance of an article, please use the one with the highest version.identifier number. This will be the latest among the duplicates.__When encountering deleted articles, please download the successive snapshots. The deleted articles will be removed in the successive generation of these snapshots, Structured Contents snapshots, and chunks._"
+      "description": "Download an entire Wikimedia project, such as English Wikipedia or French Wiktionary, as a compressed tarball (`.tar.gz`) holding one NDJSON file with every article. How often snapshots update depends on your account; the docs have the details. Use the **Metadata** requests to find the identifier you need, and chunks to split a large download.\n\nSnapshots can contain a small number of duplicate or deleted articles. When an article appears more than once, keep the copy with the highest `version.identifier`.\n\n[Snapshot API docs](https://enterprise.wikimedia.com/docs/snapshot/) and [data dictionary](https://enterprise.wikimedia.com/docs/data-dictionary/)"
     },
     {
       "name": "On-demand API",
@@ -1508,7 +1508,7 @@
                 "{{articlename}}"
               ]
             },
-            "description": "Most current revision of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name}](https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name})"
+            "description": "Most current revision of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/articles/POST/v2/articles/{name})"
           },
           "response": []
         },
@@ -1561,7 +1561,7 @@
                 "{{articlename}}"
               ]
             },
-            "description": "Structured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nReturns the Structured Contents of the current version of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name}](https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name})"
+            "description": "Structured Contents extracts infoboxes, sections, tables, references, and more from raw wikitext and HTML and delivers them as structured, machine-readable JSON.\n\nReturns the Structured Contents of the current version of an article.\n\nRequired: `{{articlename}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/structured-contents/POST/v2/structured-contents/{name})"
           },
           "response": []
         },
@@ -1585,7 +1585,7 @@
                     "{{wikidata_item_id}}"
                   ]
                 },
-                "description": "Returns data and metadata about the last revision of a given Wikidata Item identifier (Q-number, e.g. Q42). Only gives access to the Main Wikidata graph.\n\nRequired: `{{wikidata_item_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/items/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/items/{identifier})"
+                "description": "Returns data and metadata about the last revision of a given Wikidata Item identifier (Q-number, e.g. Q42). Only gives access to the Main Wikidata graph.\n\nRequired: `{{wikidata_item_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/items/{identifier})"
               },
               "response": []
             },
@@ -1606,7 +1606,7 @@
                     "{{wikidata_property_id}}"
                   ]
                 },
-                "description": "Returns data and metadata about the last revision of a given Wikidata Property identifier (P-number, e.g. P31).\n\nRequired: `{{wikidata_property_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/properties/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/properties/{identifier})"
+                "description": "Returns data and metadata about the last revision of a given Wikidata Property identifier (P-number, e.g. P31).\n\nRequired: `{{wikidata_property_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/properties/{identifier})"
               },
               "response": []
             },
@@ -1627,15 +1627,15 @@
                     "{{wikidata_entity_id}}"
                   ]
                 },
-                "description": "Returns a single JSON object of key-value pairs, where the key is the Wikimedia language code and the value is the label for that language code. Works for Wikidata item identifiers (Q-number) and property identifiers (P-number). Only gives access to the Main Wikidata graph for item identifiers. Gives access to all property identifiers.\n\nRequired: `{{wikidata_entity_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/labels/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/labels/{identifier})"
+                "description": "Returns the entity's label in every language, as one object keyed by language code. Works for items (Q-numbers, main Wikidata graph only) and properties (P-numbers).\n\nRequired: `{{wikidata_entity_id}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata/POST/v2/wikidata/labels/{identifier})"
               },
               "response": []
             }
           ],
-          "description": "Reference Documentation: [https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta](https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta)\n\nWikidata is the central knowledge base for the structured data of Wikimedia's projects: Wikipedia, Wikivoyage, Wiktionary, and more. It connects data from disparate Wikimedia projects and languages, as well as hundreds of external databases and knowledge bases, through their identifiers. In this way, Wikidata is a hub of linked knowledge. It currently contains over 120 million items, structured as Linked Open Data.\n\n| Endpoint Name | Primary Purpose | Required identifier |\n| --- | --- | --- |\n| Item Lookup | Get all data and metadata of the last revision of an item: revision info, labels, descriptions, statements, sitelinks | Q-number (e.g., Q42: Douglas Adams) |\n| Property Lookup | Retrieve all information about a property, a single category that connects statements | P-number (e.g., P106: occupation) |"
+          "description": "Look up Wikidata items (Q-numbers, such as Q42) and properties (P-numbers, such as P31), or list an entity's labels in every language.\n\n[Wikidata lookup docs](https://enterprise.wikimedia.com/docs/on-demand/#wikidata-item-lookup-beta)"
         }
       ],
-      "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/on-demand](https://enterprise.wikimedia.com/docs/on-demand)\n\nOur On-demand REST API returns the current version of any article from all [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/). Query by article name across all projects or use [metadata filtering](https://enterprise.wikimedia.com/docs/metadata/) to request by project and language, with more options to optimize response payloads. On-demand returns JSON by default, but if you would prefer an NDJSON response be sure to include the `Accept: application/x-ndjson` header in your requests.\n\nThe [Structured Contents articles endpoint](https://enterprise.wikimedia.com/docs/on-demand/) is our sandbox beta endpoint that includes fully parsed Wikipedia Infobox and article sections data in JSON."
+      "description": "Look up the current version of an article by name across all [supported projects](https://enterprise.wikimedia.com/project-data/), or narrow the results with [filters and fields](https://enterprise.wikimedia.com/docs/filtering/). Responses are JSON by default; send `Accept: application/x-ndjson` for NDJSON. **Structured Contents Article Lookup (Beta)** returns the article's infobox, sections, and more as parsed JSON.\n\n[On-demand API docs](https://enterprise.wikimedia.com/docs/on-demand/)"
     },
     {
       "name": "Realtime API",
@@ -1655,7 +1655,7 @@
                 "articles"
               ]
             },
-            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. The event type is found in the `article.event.type` field. Possible values are `update`, `delete`, and `visibility-change`.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
+            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. Each event's type is in its `event.type` field: `update`, `delete`, or `visibility-change`.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
           },
           "response": [
             {
@@ -1742,7 +1742,7 @@
                 "wikidata"
               ]
             },
-            "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
+            "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
           },
           "response": []
         },
@@ -1766,7 +1766,7 @@
                     "{{hour}}"
                   ]
                 },
-                "description": "Returns a list of available Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour})"
+                "description": "Returns a list of available Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour})"
               },
               "response": []
             },
@@ -1788,7 +1788,7 @@
                     "{{snapshot_identifier}}"
                   ]
                 },
-                "description": "Information on a specific Realtime: Batch file. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}/{identifier})"
+                "description": "Information on a specific Realtime: Batch file. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/batches/POST/v2/batches/{date}/{hour}/{identifier})"
               },
               "response": []
             },
@@ -1822,7 +1822,7 @@
                     "download"
                   ]
                 },
-                "description": "Downloadable bundle of updated articles by project, namespace, date, and hour. Generated hourly starting at 00:00 UTC each day.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/GET/v2/batches/{date}/{hour}/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/batches/GET/v2/batches/{date}/{hour}/{identifier}/download)"
+                "description": "Downloadable bundle of updated articles by project, namespace, date, and hour. Generated hourly starting at 00:00 UTC each day.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Hourly Batch File Download Headers**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/batches/GET/v2/batches/{date}/{hour}/{identifier}/download)"
               },
               "response": []
             },
@@ -1850,7 +1850,7 @@
                     "download"
                   ]
                 },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/batches/HEAD/v2/batches/{date}/{hour}/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/batches/HEAD/v2/batches/{date}/{hour}/{identifier}/download)"
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{date}}`, `{{hour}}`, `{{snapshot_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/batches/HEAD/v2/batches/{date}/{hour}/{identifier}/download)"
               },
               "response": [
                 {
@@ -1905,7 +1905,7 @@
                     "wikidata"
                   ]
                 },
-                "description": "Returns a list of available Wikidata Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata)"
+                "description": "Returns a list of available Wikidata Realtime: Batch files by date and hour (00, 01, ..., 23). Includes identifiers, file sizes and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata)"
               },
               "response": []
             },
@@ -1928,7 +1928,7 @@
                     "{{wikidata_identifier}}"
                   ]
                 },
-                "description": "Information on the hourly Wikidata `items` or `properties` batch for a given date and hour. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata/{identifier}](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata/{identifier})"
+                "description": "Information on the hourly Wikidata `items` or `properties` batch for a given date and hour. Includes identifier, file size and other relevant metadata.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/POST/v2/batches/{date}/{hour}/wikidata/{identifier})"
               },
               "response": []
             },
@@ -1960,7 +1960,7 @@
                     "download"
                   ]
                 },
-                "description": "Downloadable bundle of the Wikidata items or properties updated in a given date and hour. Generated hourly starting at 00:00 UTC each day.\n\nResponds `307 Temporary Redirect` with a presigned URL in the `Location` header, valid for 60 seconds. The file is served from that URL, not from this endpoint, so clients must follow the redirect (for example `curl --location`) and request a fresh URL for each download rather than storing one. Do not send the API bearer token to the presigned URL: the storage service rejects a request that carries both with `400 InvalidArgument`. The payload is a gzipped tar archive served as `binary/octet-stream`. Use HEAD on this path for `Content-Length`, `ETag`, `Last-Modified` and `Accept-Ranges`, and send `Range` requests to the presigned URL to resume a partial download.\n\n**In Postman:** this request is set not to follow the redirect, because the files are large (a Wikidata items snapshot is over 100 GB). Send it, copy the presigned URL from the `Location` response header (the response body shows it as a link too), and download from that URL within 60 seconds, for example with `curl --location`.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/GET/v2/batches/{date}/{hour}/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/GET/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
+                "description": "Downloadable bundle of the Wikidata items or properties updated in a given date and hour. Generated hourly starting at 00:00 UTC each day.\n\nReturns `307 Temporary Redirect`. This request doesn't follow the redirect, because the files are large: copy the URL from the `Location` header (the response body shows it as a link too) and download it within 60 seconds, for example with `curl --location`. Don't send your access token to that URL.\n\nTo check the size first, send **Wikidata Hourly Batch File Download Headers (Beta)**. To resume a large download, see [Resumable downloads](https://enterprise.wikimedia.com/docs/snapshot/#resumable-downloads).\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/GET/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
               },
               "response": [],
               "protocolProfileBehavior": {
@@ -1987,15 +1987,15 @@
                     "download"
                   ]
                 },
-                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\nReference documentation: [https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/HEAD/v2/batches/{date}/{hour}/wikidata/{identifier}/download](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/HEAD/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
+                "description": "Returns only the headers of the download: file size (`Content-Length`), `Last-Modified`, `ETag` and `Accept-Ranges`. Use it to check a file before downloading it, or to plan ranged downloads.\n\nRequired: `{{date}}`, `{{hour}}`, `{{wikidata_identifier}}`\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/wikidata-batches/HEAD/v2/batches/{date}/{hour}/wikidata/{identifier}/download)"
               },
               "response": []
             }
           ],
-          "description": "Realtime: Batch bundles each hour's article updates into downloadable files, generated hourly starting at 00:00 UTC. Use it to get real-time updates without keeping a streaming connection open.\n\nReference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)"
+          "description": "Each hour's updates as downloadable files, generated hourly from 00:00 UTC. Use them to stay current without keeping a stream open.\n\n[Realtime API docs](https://enterprise.wikimedia.com/docs/realtime/)"
         }
       ],
-      "description": "Reference documentation: [https://enterprise.wikimedia.com/docs/realtime/](https://enterprise.wikimedia.com/docs/realtime/)\n\nReceive real-time event updates from all [supported Wikimedia projects](https://enterprise.wikimedia.com/project-data/) using the streaming (firehose) endpoint, or via batch file endpoints that are generated hourly with changes throughout the day.\n\nStreaming supports server-sent events (SSE) by default or NDJSON when you pass the `Accept: application/x-ndjson` header. Batch files return NDJSON in a tarball (.tar.gz).\n\nEvent types are: update, delete, visibility-change:\n\n- An `update` event type is sent when an article is created, its content is updated, or its name or namespace is changed.\n    \n- A `delete` event type is sent when an article has been deleted.\n    \n- A `visibility-change` event type is sent when the visibility of an article's editor, comment, or content is changed by community volunteers\n    \n\nFor access to Realtime endpoints, [contact our sales team](https://enterprise.wikimedia.com/contact/)."
+      "description": "Receive updates from all [supported projects](https://enterprise.wikimedia.com/project-data/) as they happen, through a stream or hourly **Realtime: Batch** files. The Realtime API requires a paid account; [contact us](https://enterprise.wikimedia.com/contact/) for access.\n\nStreams send server-sent events by default, or NDJSON with the `Accept: application/x-ndjson` header. Each event has one of three types:\n\n- `update`: an article was created, its content changed, or its name or namespace changed.\n- `delete`: an article was deleted.\n- `visibility-change`: community volunteers changed the visibility of an article's editor, comment, or content.\n\n[Realtime API docs](https://enterprise.wikimedia.com/docs/realtime/)"
     }
   ],
   "auth": {
