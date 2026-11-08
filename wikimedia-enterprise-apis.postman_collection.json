@@ -1655,7 +1655,7 @@
                 "articles"
               ]
             },
-            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. Each event's type is in its `event.type` field: `update`, `delete`, or `visibility-change`.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
+            "description": "Returns a stream of article updates, deletions, and visibility changes across all supported projects. Each event's type is in its `event.type` field: `update`, `delete`, or `visibility-change`.\n\nThe Realtime API requires a paid account. On a free account, this request returns `403 Forbidden`.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-articles/POST/v2/articles)"
           },
           "response": [
             {
@@ -1742,7 +1742,7 @@
                 "wikidata"
               ]
             },
-            "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
+            "description": "Returns a stream of Wikidata item updates, deletions, and visibility changes in real-time.\n\nThe Realtime API requires a paid account.\n\nAlso available as `GET`, with `fields` and `filters` sent as query parameters.\n\n[API reference](https://enterprise.wikimedia.com/docs/api/#tag/realtime-wikidata/POST/v2/wikidata)"
           },
           "response": []
         },
@@ -1992,7 +1992,7 @@
               "response": []
             }
           ],
-          "description": "Each hour's updates as downloadable files, generated hourly from 00:00 UTC. Use them to stay current without keeping a stream open.\n\n[Realtime API docs](https://enterprise.wikimedia.com/docs/realtime/)"
+          "description": "Each hour's updates as downloadable files, generated hourly from 00:00 UTC. Use them to stay current without keeping a stream open. Like the rest of the Realtime API, Realtime: Batch requires a paid account.\n\n[Realtime API docs](https://enterprise.wikimedia.com/docs/realtime/)"
         }
       ],
       "description": "Receive updates from all [supported projects](https://enterprise.wikimedia.com/project-data/) as they happen, through a stream or hourly **Realtime: Batch** files. The Realtime API requires a paid account; [contact us](https://enterprise.wikimedia.com/contact/) for access.\n\nStreams send server-sent events by default, or NDJSON with the `Accept: application/x-ndjson` header. Each event has one of three types:\n\n- `update`: an article was created, its content changed, or its name or namespace changed.\n- `delete`: an article was deleted.\n- `visibility-change`: community volunteers changed the visibility of an article's editor, comment, or content.\n\n[Realtime API docs](https://enterprise.wikimedia.com/docs/realtime/)"
