@@ -2,13 +2,9 @@
 
 The Postman collection for the Wikimedia Enterprise APIs, maintained by the Wikimedia Enterprise team. Use it to explore the API, try requests, and check responses before you write code.
 
-[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/wikimedia-enterprise)
-
-The public workspace is at [postman.com/wikimedia-enterprise](https://www.postman.com/wikimedia-enterprise). This repository holds the same collection as a file, `wikimedia-enterprise-apis.postman_collection.json` (Postman collection format v2.1), which you can import directly.
-
 ## Quick start
 
-1. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (in Postman, click **Import** and choose the file).
+1. **Get the collection.** Import the JSON file from this repository (in Postman, click **Import** and choose the file).
 2. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
 3. **Store your credentials in the Postman Vault.** Click **Vault** in the footer at the bottom of the Postman window. The first time, Postman asks you to create a vault key, a password that protects the vault on this computer: keep **Save this key to native password manager** ticked so you aren't asked for it again, and keep a copy in your password manager. Then, in your local vault, click **Add new secret** and create two secrets:
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
