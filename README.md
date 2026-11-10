@@ -64,4 +64,8 @@ Found a problem or have a suggestion? [Open an issue](https://github.com/wikimed
 
 ## License
 
-GPL-3.0. See [LICENSE](LICENSE). Content returned by the APIs comes from Wikipedia and other Wikimedia projects and is licensed under CC BY-SA 4.0.
+Copyright 2026 Wikimedia, LLC. Licensed under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE).
+
+This tool is not covered under Wikimedia Enterprise SLA.
+
+Content from Wikimedia projects that you retrieve through the API carries its own license, most often CC BY-SA 4.0. Use of the APIs is subject to the [API License Agreement](https://enterprise.wikimedia.com/terms/).
