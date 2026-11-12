@@ -49,7 +49,7 @@ You can also run **Authentication > Login** yourself; it stores the tokens in th
 | **On-demand API** | Look up the current version of an article and its Structured Contents (Beta). The **Wikidata (Beta)** folder looks up Wikidata items, properties, and labels. |
 | **Realtime API** | Stream article and Wikidata updates. The **Realtime: Batch** folder lists and downloads the hourly batch files, for projects and for Wikidata (Beta). |
 
-The collection covers every endpoint in version 2.0.0 of the API. Where an endpoint also accepts `GET`, the `POST` request's description says so. Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
+The collection covers every endpoint in version 2.0.1 of the API. Where an endpoint also accepts `GET`, the `POST` request's description says so. Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
 ## Usage notes
 
