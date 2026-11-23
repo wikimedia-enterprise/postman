@@ -2,13 +2,9 @@
 
 The Postman collection for the Wikimedia Enterprise APIs, maintained by the Wikimedia Enterprise team. Use it to explore the API, try requests, and check responses before you write code.
 
-[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://www.postman.com/wikimedia-enterprise)
-
-The public workspace is at [postman.com/wikimedia-enterprise](https://www.postman.com/wikimedia-enterprise). This repository holds the same collection as a file, `wikimedia-enterprise-apis.postman_collection.json` (Postman collection format v2.1), which you can import directly.
-
 ## Quick start
 
-1. **Get the collection.** Fork it from the [public workspace](https://www.postman.com/wikimedia-enterprise), or import the JSON file from this repository (in Postman, click **Import** and choose the file).
+1. **Get the collection.** Import the JSON file from this repository (in Postman, click **Import** and choose the file).
 2. **Create an account.** [Sign up for a free account](https://dashboard.enterprise.wikimedia.com/signup/) and verify your email.
 3. **Store your credentials in Postman Vault.** Your local vault keeps them encrypted and doesn't sync them to the Postman Cloud. Click **Vault** in the footer of the Postman window. If Postman asks you to create a vault key, keep a copy in your password manager. Then click **Add new secret** and create two secrets:
     - `wmeUsername`: your Wikimedia Enterprise username, in lowercase
@@ -53,7 +49,7 @@ You can also run **Authentication > Login** yourself; it stores the tokens in th
 | **On-demand API** | Look up the current version of an article and its Structured Contents (Beta). The **Wikidata (Beta)** folder looks up Wikidata items, properties, and labels. |
 | **Realtime API** | Stream article and Wikidata updates. The **Realtime: Batch** folder lists and downloads the hourly batch files, for projects and for Wikidata (Beta). |
 
-The collection covers every endpoint in version 2.0.0 of the API. Where an endpoint also accepts `GET`, the `POST` request's description says so. Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
+The collection covers every endpoint in version 2.0.1 of the API. Where an endpoint also accepts `GET`, the `POST` request's description says so. Every request links to its entry in the [API reference](https://enterprise.wikimedia.com/docs/api/). The [OpenAPI definition](https://enterprise.wikimedia.com/docs/api/wme-api.yaml) is the full reference for every endpoint and response field.
 
 ## Usage notes
 
@@ -62,10 +58,30 @@ The collection covers every endpoint in version 2.0.0 of the API. Where an endpo
 - **Updates:** we update this collection as the API changes. Re-import the file or pull changes into your fork to get new requests.
 - **Status:** current API status is at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/).
 
-## Contributing
+## Support
+
+This project is shared by members of the Foundation's Commercial partnership team for reference and experimentation. It is not developed, reviewed, maintained, or supported by the Wikimedia Enterprise Engineering team.
 
 Found a problem or have a suggestion? [Open an issue](https://github.com/wikimedia-enterprise/postman/issues). For questions about your account or the APIs, [contact us](https://enterprise.wikimedia.com/contact/).
 
 ## License
 
-GPL-3.0. See [LICENSE](LICENSE). Content returned by the APIs comes from Wikipedia and other Wikimedia projects and is licensed under CC BY-SA 4.0.
+```
+Copyright 2026 Wikimedia, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+This tool is not covered under Wikimedia Enterprise SLA.
+
+Content from Wikimedia projects that you retrieve through the API carries its own license, most often CC BY-SA 4.0. Use of the APIs is subject to the [API License Agreement](https://enterprise.wikimedia.com/terms/).
