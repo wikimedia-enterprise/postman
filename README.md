@@ -58,13 +58,29 @@ The collection covers every endpoint in version 2.0.1 of the API. Where an endpo
 - **Updates:** we update this collection as the API changes. Re-import the file or pull changes into your fork to get new requests.
 - **Status:** current API status is at [status.enterprise.wikimedia.com](https://status.enterprise.wikimedia.com/).
 
-## Contributing
+## Support
+
+This project is shared by members of the Foundation's Commercial partnership team for reference and experimentation. It is not developed, reviewed, maintained, or supported by the Wikimedia Enterprise Engineering team.
 
 Found a problem or have a suggestion? [Open an issue](https://github.com/wikimedia-enterprise/postman/issues). For questions about your account or the APIs, [contact us](https://enterprise.wikimedia.com/contact/).
 
 ## License
 
-Copyright 2026 Wikimedia, LLC. Licensed under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE).
+```
+Copyright 2026 Wikimedia, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 This tool is not covered under Wikimedia Enterprise SLA.
 
